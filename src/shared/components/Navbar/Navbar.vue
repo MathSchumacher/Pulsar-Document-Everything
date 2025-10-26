@@ -5,17 +5,16 @@ import MobileMenu from './MobileMenu.vue';
 import DonateMenu from './DonateMenu.vue';
 import { useNavbar } from '~/shared/states/navbarState';
 
-const { localeProperties, setLocale } = useI18n();
 const navbar = useNavbar();
 
 watch(() => navbar.value.selectedLocale, () => {
   if(navbar.value.selectedLocale) {
-    setLocale(navbar.value.selectedLocale.code);
+    $setLocale(navbar.value.selectedLocale.code);
   }
 });
 
 onMounted(() => {
-  navbar.value.selectedLocale = localeProperties.value;
+  navbar.value.selectedLocale = $localeProperties;
 });
 </script>
 

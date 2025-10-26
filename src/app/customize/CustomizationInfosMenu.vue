@@ -2,31 +2,34 @@
 import { useConfirm } from "primevue/useconfirm";
 import { Status } from "~/@types/status";
 import ScrollPanel from 'primevue/scrollpanel';
-import Tailwind from "primevue/passthrough/tailwind";
-import { usePassThrough } from 'primevue/passthrough';
 import { Documentation } from "~/database/models/Documentation";
 import DocPrototype from '~/shared/components/DocPrototype.vue';
 import { useCustomize } from '~/shared/states/customizeState';
 
-const { t } = useI18n();
 const confirm = useConfirm();
 const customize = useCustomize();
+// PrimeVue passthrough simplificado
+const pt = {
+  scrollpanel: { barY: '!bg-secondary/30 contrast-200' },
+  button: { root: 'bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded' },
+  inputtext: { root: 'border p-2 rounded' }
+};
 
 function deleteCustomizationConfirmDialog(customizationId: number) {
   confirm.require({
-    header: t('customize.delete-customization-dialog-title'),
-    message: t('customize.delete-customization-dialog-message'),
+    header: $t('customize.delete-customization-dialog-title'),
+    message: $t('customize.delete-customization-dialog-message'),
     acceptClass: '!w-20 !h-10 !font-normal !bg-[#c22d37] hover:!bg-[#992028] ml-2.5 !border-none',
     rejectClass: '!w-20 !h-10 !font-normal',
-    rejectLabel: t('customize.delete-customization-dialog-cancel-button-message'),
-    acceptLabel: t('customize.delete-customization-dialog-confirm-button-message'),
+    rejectLabel: $t('customize.delete-customization-dialog-cancel-button-message'),
+    acceptLabel: $t('customize.delete-customization-dialog-confirm-button-message'),
     accept: async () => {
       const updatedCustomizations = JSON.parse(JSON.stringify(customize.value.doc.customizations.filter(c => c.id != customizationId)));
       const result = await Documentation.edit(customize.value.doc.id, {
         customizations: updatedCustomizations
       });
 
-      if(result === Status.OK) {
+      if (result === Status.OK) {
         customize.value.controlsMenu.customizationInfosMenu.isOpen = false;
         customize.value.doc.customizations = updatedCustomizations;
       } else {

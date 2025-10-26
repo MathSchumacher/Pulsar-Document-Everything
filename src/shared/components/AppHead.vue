@@ -1,11 +1,9 @@
 <script setup lang="ts">
-  const { localeProperties } = useI18n();
-  
-  useHead({
-    htmlAttrs: {
-      lang: localeProperties.value.iso
-    }
-  });
+useHead({
+  htmlAttrs: {
+    lang: $localeProperties.iso
+  }
+});
 </script>
 
 <template>
@@ -22,13 +20,13 @@
     <Meta name="msapplication-TileColor" content="#1d2024" />
     <Meta name="msapplication-config" content="/favicons/browserconfig.xml" />
     <Meta name="theme-color" content="#1d2024" />
-    <Meta name='author' content='Diogo Pereira'/>
-    <Meta name='description' :content='$t("metadata.description")'/>
-    <Meta name='robots' content='index,follow' />
-    <Meta name='og:title' :content='$t("metadata.title")' />
-    <Meta name='og:description' :content='$t("metadata.description")' />
-    <Meta name='twitter:title' :content='$t("metadata.title")' />
-    <Meta name='twitter:description' :content='$t("metadata.description")' />
-    <Meta name='twitter:card' content='summary' />
+    <Meta name="author" content="Matheus Schumacher"/>
+    <Meta name="description" :content="$t('metadata.description')"/>
+    <Meta name="robots" content="index,follow" />
+    <Meta name="og:title" :content="$t('metadata.title')" />
+    <Meta name="og:description" :content="$t('metadata.description')" />
+    <Meta name="twitter:title" :content="$t('metadata.title')" />
+    <Meta name="twitter:description" :content="$t('metadata.description')" />
+    <Meta name="twitter:card" content="summary" />
   </Head>
 </template>

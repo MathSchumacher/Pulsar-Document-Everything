@@ -29,8 +29,6 @@ const props = defineProps<{
   content: string | undefined
 }>();
 
-const { t } = useI18n();
-
 const editor = useTiptapEditor({
   content: props.content,
   extensions: [
@@ -65,9 +63,9 @@ const editor = useTiptapEditor({
     Placeholder.configure({
       placeholder: ({ node }) => {
         if (node.type.name === 'heading') {
-          return `H${node.attrs.level} ${t('markdowneditor.is-empty-message')}`;
+          return `H${node.attrs.level} ${$t('markdowneditor.is-empty-message')}`;
         }
-        return t('markdowneditor.line-is-empty-placeholder');
+        return $t('markdowneditor.line-is-empty-placeholder');
       }
     }),
     Markdown.configure({
@@ -197,12 +195,10 @@ const editor = useTiptapEditor({
     preserveWhitespace: 'full'
   },
   onUpdate: () => {
-    // Send current editor html content to external components using emit event
     emit('update:modelValue', editor.value?.getHTML(), editor.value);
   }
 });
 
-// Set editor content on props.content was changed
 watch(() => pageEditor.value.currentSelectedPage, (value) => {
   if(!editor.value) return;
   editor.value?.commands.setContent(value.content, true);
@@ -223,7 +219,6 @@ watch(() => pageEditor.value.currentSelectedPage, (value) => {
       :editor="editor"
       :colors="props.colors"
     />
-    <!--Editor container-->
     <editor-content
       autocomplete="off"
       autocorrect="off"
@@ -239,13 +234,11 @@ watch(() => pageEditor.value.currentSelectedPage, (value) => {
 </template>
 
 <style lang="scss">
-// Disable editor outline border on click
 .ProseMirror:focus-visible {
   outline: none;
 }
 
 .tiptap {
-  // Headings
   .pulsar-heading {
     color: v-bind('props.colors.text');
     font-weight: 500;
@@ -259,17 +252,14 @@ watch(() => pageEditor.value.currentSelectedPage, (value) => {
 
   .pulsar-heading-4 { font-size: 22px; }
 
-  // Paragraph
   .pulsar-paragraph { color: v-bind('props.colors.text + "b9"'); }
 
   .pulsar-paragrap:empty::after {
     content: "\00A0";
   }
 
-  // Link
   .pulsar-link { color: v-bind('props.colors.primary'); }
 
-  // Horizontal rule
   .pulsar-divider {
     width: 100%;
     height: 1px;
@@ -277,7 +267,6 @@ watch(() => pageEditor.value.currentSelectedPage, (value) => {
     background-color: v-bind('colors.divider') !important;
   }
 
-  // BulletList and NumberedList
   .pulsar-bulletlist,
   .pulsar-numberedlist {
     padding: 0 1rem;
@@ -292,7 +281,6 @@ watch(() => pageEditor.value.currentSelectedPage, (value) => {
     list-style: decimal;
   }
 
-  //Placeholder
   .is-empty::before {
     content: attr(data-placeholder);
     float: left;
@@ -301,7 +289,6 @@ watch(() => pageEditor.value.currentSelectedPage, (value) => {
     height: 0;
   }
 
-  // Image
   .pulsar-image {
     max-width: 100%;
     height: auto;
@@ -312,7 +299,6 @@ watch(() => pageEditor.value.currentSelectedPage, (value) => {
     }
   }
 
-  // CodeBlock
   .highlighted-codeblock {
     background-color: v-bind('props.colors.secondary');
     color: v-bind('props.colors.codeBlockText');
@@ -365,7 +351,6 @@ watch(() => pageEditor.value.currentSelectedPage, (value) => {
     .hljs-strong { font-weight: 700; }
   }
 
-  // Tables
   table {
     border-collapse: collapse;
     table-layout: fixed;

@@ -3,7 +3,6 @@ import BuyMeACoffeIcon from '~/shared/components/icons/BuyMeACoffeIcon.vue';
 import Dropdown from 'primevue/dropdown';
 import { useNavbar } from '~/shared/states/navbarState';
 
-const { localeProperties, setLocale } = useI18n();
 const navbar = useNavbar();
 
 function openMobileMenu() {
@@ -15,7 +14,6 @@ function closeMobileMenu() {
   navbar.value.mobileMenuIsOpen = false;
   document.body.style.overflow = 'auto';
 }
-
 
 function copyPix() {
   window.navigator.clipboard.writeText('03752835010');
@@ -33,12 +31,12 @@ watch(() => navbar.value.donateMenu.isCopiedPix, (newIsCopied) => {
 
 watch(() => navbar.value.selectedLocale, () => {
   if(navbar.value.selectedLocale) {
-    setLocale(navbar.value.selectedLocale.code);
+    $setLocale(navbar.value.selectedLocale.code);
   }
 });
 
 onMounted(() => {
-  navbar.value.selectedLocale = localeProperties.value;
+  navbar.value.selectedLocale = $localeProperties;
 });
 </script>
 

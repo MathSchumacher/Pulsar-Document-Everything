@@ -1,4 +1,4 @@
-import { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
+import { LocaleObject } from '#i18n';
 
 type NavbarStateType = {
   donateMenu: {

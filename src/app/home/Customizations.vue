@@ -7,23 +7,21 @@ type Item = {
   description: string
 };
 
-const { t } = useI18n();
-
 const topItems = ref<Item[]>([
   {
     icon: 'fa-solid fa-code',
     title: 'HTML',
-    description: t('homepage.customizations-features-html-description')
+    description: $t('homepage.customizations-features-html-description')
   },
   {
     icon: 'fa-brands fa-css3',
     title: 'CSS',
-    description: t('homepage.customizations-features-css-description')
+    description: $t('homepage.customizations-features-css-description')
   },
   {
     icon: 'fa-brands fa-square-js',
     title: 'Javascript',
-    description: t('homepage.customizations-features-javascript-description')
+    description: $t('homepage.customizations-features-javascript-description')
   }
 ]);
 </script>
@@ -53,10 +51,8 @@ const topItems = ref<Item[]>([
       </div>
       <div class="absolute -left-0.5 top-0 w-[calc(100%+4px)] h-[calc(100%+2px)] customizations-image-gradient rounded-[10px]"></div>
     </div>
-    <!--Cards container-->
     <div class="w-full max-w-[1600px] flex justify-center flex-wrap px-20">
       <hr class="max-[1344px]:hidden customizations-separator w-0.5 h-[230px] border-none" />
-      <!--Cards-->
       <div class="flex grow min-w-[250px] w-[295px]" v-for="(item, i) in topItems">
         <hr class="min-[1344px]:hidden customizations-separator min-w-[2px] h-full border-none" v-if="i === 0" />
         <div 

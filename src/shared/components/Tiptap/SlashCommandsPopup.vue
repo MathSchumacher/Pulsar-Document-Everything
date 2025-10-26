@@ -3,21 +3,6 @@ import { Editor, FloatingMenu, CommandProps } from '@tiptap/vue-3';
 import InputText from 'primevue/inputtext';
 import { IDocumentationColorPalette } from '~/database/models/Documentation';
 
-const { t } = useI18n();
-
-type Slash = {
-  search: string,
-  commands: {
-    icon: {
-      icon: string,
-      class: string
-    },
-    title: string,
-    description: string,
-    executor: () => void
-  }[]
-};
-
 const props = defineProps<{
   editor: Editor | undefined,
   colors: IDocumentationColorPalette
@@ -31,8 +16,8 @@ const slash = ref<Slash>({
         icon: 'fa-solid fa-table',
         class: 'text-xl'
       },
-      title: t('markdowneditor.slashcommands-popup-table-title'),
-      description: t('markdowneditor.slashcommands-popup-table-description'),
+      title: $t('markdowneditor.slashcommands-popup-table-title'),
+      description: $t('markdowneditor.slashcommands-popup-table-description'),
       executor() {
         commandExecutor(p => {
           return p.commands.insertTable({ rows: 2, cols: 2, withHeaderRow: true });
@@ -44,8 +29,8 @@ const slash = ref<Slash>({
         icon: 'fa-solid fa-heading',
         class: 'text-xl'
       },
-      title: t('markdowneditor.slashcommands-popup-heading-1-title'),
-      description: t('markdowneditor.slashcommands-popup-heading-1-description'),
+      title: $t('markdowneditor.slashcommands-popup-heading-1-title'),
+      description: $t('markdowneditor.slashcommands-popup-heading-1-description'),
       executor() {
         commandExecutor(p => {
           return p.commands.setHeading({ level: 1 });
@@ -57,8 +42,8 @@ const slash = ref<Slash>({
         icon: 'fa-solid fa-heading',
         class: 'text-xl'
       },
-      title: t('markdowneditor.slashcommands-popup-heading-2-title'),
-      description: t('markdowneditor.slashcommands-popup-heading-2-description'),
+      title: $t('markdowneditor.slashcommands-popup-heading-2-title'),
+      description: $t('markdowneditor.slashcommands-popup-heading-2-description'),
       executor() {
         commandExecutor(p => {
           return p.commands.setHeading({ level: 2 });
@@ -70,8 +55,8 @@ const slash = ref<Slash>({
         icon: 'fa-solid fa-heading',
         class: 'text-xl'
       },
-      title: t('markdowneditor.slashcommands-popup-heading-3-title'),
-      description: t('markdowneditor.slashcommands-popup-heading-3-description'),
+      title: $t('markdowneditor.slashcommands-popup-heading-3-title'),
+      description: $t('markdowneditor.slashcommands-popup-heading-3-description'),
       executor() {
         commandExecutor(p => {
           return p.commands.setHeading({ level: 3 });
@@ -83,8 +68,8 @@ const slash = ref<Slash>({
         icon: 'fa-solid fa-heading',
         class: 'text-xl'
       },
-      title: t('markdowneditor.slashcommands-popup-heading-4-title'),
-      description: t('markdowneditor.slashcommands-popup-heading-4-description'),
+      title: $t('markdowneditor.slashcommands-popup-heading-4-title'),
+      description: $t('markdowneditor.slashcommands-popup-heading-4-description'),
       executor() {
         commandExecutor(p => {
           return p.commands.setHeading({ level: 4 });
@@ -96,8 +81,8 @@ const slash = ref<Slash>({
         icon: 'fa-solid fa-image',
         class: 'text-xl'
       },
-      title: t('markdowneditor.slashcommands-popup-image-title'),
-      description: t('markdowneditor.slashcommands-popup-image-description'),
+      title: $t('markdowneditor.slashcommands-popup-image-title'),
+      description: $t('markdowneditor.slashcommands-popup-image-description'),
       executor() {
         const url = window.prompt('URL:');
 
@@ -113,8 +98,8 @@ const slash = ref<Slash>({
         icon: 'fa-solid fa-list',
         class: 'text-lg'
       },
-      title: t('markdowneditor.slashcommands-popup-bulletlist-title'),
-      description: t('markdowneditor.slashcommands-popup-bulletlist-description'),
+      title: $t('markdowneditor.slashcommands-popup-bulletlist-title'),
+      description: $t('markdowneditor.slashcommands-popup-bulletlist-description'),
       executor() {
         commandExecutor(p => {
           return p.commands.toggleBulletList();
@@ -126,8 +111,8 @@ const slash = ref<Slash>({
         icon: 'fa-solid fa-list-ol',
         class: 'text-[19px]'
       },
-      title: t('markdowneditor.slashcommands-popup-numberedlist-title'),
-      description: t('markdowneditor.slashcommands-popup-numberedlist-description'),
+      title: $t('markdowneditor.slashcommands-popup-numberedlist-title'),
+      description: $t('markdowneditor.slashcommands-popup-numberedlist-description'),
       executor() {
         commandExecutor(p => {
           return p.commands.toggleOrderedList();
@@ -139,8 +124,8 @@ const slash = ref<Slash>({
         icon: 'fa-solid fa-lines-leaning',
         class: 'text-[19px]'
       },
-      title: t('markdowneditor.slashcommands-popup-divider-title'),
-      description: t('markdowneditor.slashcommands-popup-divider-description'),
+      title: $t('markdowneditor.slashcommands-popup-divider-title'),
+      description: $t('markdowneditor.slashcommands-popup-divider-description'),
       executor() {
         commandExecutor(p => {
           return p.commands.setHorizontalRule();
@@ -152,8 +137,8 @@ const slash = ref<Slash>({
         icon: 'fa-solid fa-code',
         class: 'text-lg'
       },
-      title: t('markdowneditor.slashcommands-popup-codeblocks-title'),
-      description: t('markdowneditor.slashcommands-popup-codeblocks-description'),
+      title: $t('markdowneditor.slashcommands-popup-codeblocks-title'),
+      description: $t('markdowneditor.slashcommands-popup-codeblocks-description'),
       executor() {
         commandExecutor(p => {
           return p.commands.toggleCodeBlock();
@@ -238,7 +223,6 @@ function commandExecutor(command: (props: CommandProps) => boolean) {
             </div>
           </Button>
         </li>
-        <!--Empty list message-->
         <li v-if="slash.commands.length < 1 || slash.commands.filter(c => c.title.toLowerCase().match(slash.search.toLowerCase())).length < 1">
           <div class="flex justify-center items-center w-full h-20">
             <p class="text-[15px] text-primary/50">{{ $t('markdowneditor.slashcommands-popup-no-commands-found-message') }}</p>

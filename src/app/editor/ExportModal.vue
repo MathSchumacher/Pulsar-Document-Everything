@@ -5,7 +5,6 @@ import DocPrototype from '~/shared/components/DocPrototype.vue';
 import { useConfirm } from 'primevue/useconfirm';
 import { useEditor } from '~/shared/states/editorState';
 
-const { t } = useI18n();
 const confirm = useConfirm();
 const editor = useEditor();
 
@@ -51,12 +50,12 @@ watch(() => editor.value.exportDocModal.isOpen, (val) => {
 function cancelConfirmDialog() {
   editor.value.exportDocModal.isCancelling = true;
   confirm.require({
-    header: t('editor.export-cancel-dialog-title'),
-    message: t('editor.export-cancel-dialog-content'),
+    header: $t('editor.export-cancel-dialog-title'),
+    message: $t('editor.export-cancel-dialog-content'),
     acceptClass: '!w-32 !h-11 !font-normal !bg-[#c22d37] hover:!bg-[#992028] ml-2.5 border-0',
     rejectClass: '!w-32 !h-11 !font-normal',
-    acceptLabel: t('editor.export-cancel-dialog-confirm-button-message'),
-    rejectLabel: t('editor.export-cancel-dialog-cancel-button-message'),
+    acceptLabel: $t('editor.export-cancel-dialog-confirm-button-message'),
+    rejectLabel: $t('editor.export-cancel-dialog-cancel-button-message'),
     accept: () => {
       editor.value.exportDocModal.isOpen = false;
       editor.value.exportDocModal.isCancelling = false;
@@ -73,7 +72,6 @@ function cancelConfirmDialog() {
 
 <template>
   <div>
-    <!--Modal frame-->
     <div 
       :class="`
         ${!editor.exportDocModal.isOpen || editor.exportDocModal.isCancelling? 'opacity-0 pointer-events-none': ''} 
@@ -93,16 +91,13 @@ function cancelConfirmDialog() {
       `"
     >
       <div class="flex flex-col w-full h-full relative">
-        <!--Close button-->
         <Button @click="cancelConfirmDialog()" class="!w-10 !h-10 !absolute right-8 top-5 border-none z-[700]">
           <font-awesome-icon icon="fa-solid fa-close" class="text-[21px] text-primary/60"></font-awesome-icon>
         </Button>
-        <!--Loading-->
         <div class="flex flex-col gap-3.5 justify-center items-center h-full" v-if="editor.exportDocModal.isLoading">
           <font-awesome-icon icon="fa-solid fa-circle-notch" class="text-[50px] text-secondary" spin></font-awesome-icon>
           <h3 class="text-center w-[300px] text-primary/80">{{ $t('editor.export-modal-loading-message') }}</h3>
         </div>
-        <!--Error-->
         <div class="flex flex-col items-center justify-center -mt-2.5 h-full" v-if="editor.exportDocModal.isError && !editor.exportDocModal.isLoading">
           <h2 class="text-[100px] text-secondary/80 font-medium">Error</h2>
           <p class="max-w-[320px] text-center text-lg text-primary/50 font-normal -mt-4">{{ $t('editor.export-modal-error-message') }}</p>
@@ -113,7 +108,6 @@ function cancelConfirmDialog() {
             {{ $t('editor.export-modal-error-try-again-message') }}
           </Button>
         </div>
-        <!--Download area-->
         <div class="relative h-full" v-if="!editor.exportDocModal.isError && !editor.exportDocModal.isLoading">
           <div class="relative w-full h-4/5 bg-secondary_darken lg:rounded-t-[10px] overflow-hidden">
             <DocPrototype
@@ -134,7 +128,6 @@ function cancelConfirmDialog() {
         </div>
       </div>
     </div>
-    <!--Modal backdrop-->
     <div 
       @click="cancelConfirmDialog"
       :class="`

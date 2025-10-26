@@ -4,7 +4,6 @@ import { useEditor } from '~/shared/states/editorState';
 import { IDocumentationCategory, IDocumentationPage } from '~/database/models/Documentation';
 import InputableButton from './InputableButton.vue';
 
-const { t } = useI18n();
 const confirm = useConfirm();
 const editor = useEditor();
 
@@ -45,12 +44,12 @@ function handleNewPage(value: string, categoryId: number) {
 
 function deleteCategoryConfirmDialog(categoryId: number) {
   confirm.require({
-    header: t('editor.delete-category-dialog-title'),
-    message: t('editor.delete-category-dialog-message'),
+    header: $t('editor.delete-category-dialog-title'),
+    message: $t('editor.delete-category-dialog-message'),
     acceptClass: '!w-20 !h-10 !font-normal !bg-[#c22d37] hover:!bg-[#992028] ml-2.5 !border-none',
     rejectClass: '!w-20 !h-10 !font-normal',
-    acceptLabel: t('editor.delete-category-dialog-confirm-button-message'),
-    rejectLabel: t('editor.delete-category-dialog-cancel-button-message'),
+    acceptLabel: $t('editor.delete-category-dialog-confirm-button-message'),
+    rejectLabel: $t('editor.delete-category-dialog-cancel-button-message'),
     accept: async () => {
       const categoryPagesProxyClone = JSON.parse(JSON.stringify(editor.value.doc.pages));
       const pagesUpdated = categoryPagesProxyClone.filter((page: IDocumentationPage) => page.categoryId != categoryId);
@@ -60,7 +59,6 @@ function deleteCategoryConfirmDialog(categoryId: number) {
       editor.value.doc.categories = categoriesUpdated;
       editor.value.doc.pages = pagesUpdated;
 
-      // Clear the currentSelectedPage if the category deleted is the same of the currentSelectedPage
       if(categoryId === editor.value.currentSelectedPage?.categoryId) {
         editor.value.currentSelectedPage = { ...pagesUpdated[0], id: -1 };
       }
@@ -70,15 +68,15 @@ function deleteCategoryConfirmDialog(categoryId: number) {
 
 function deletePageConfirmDialog(pageId: number) {
   confirm.require({
-    header: t('editor.delete-page-dialog-title'),
-    message: t('editor.delete-page-dialog-message'),
+    header: $t('editor.delete-page-dialog-title'),
+    message: $t('editor.delete-page-dialog-message'),
     acceptClass: '!w-20 !h-10 !font-normal !bg-[#c22d37] hover:!bg-[#992028] ml-2.5 !border-none',
     rejectClass: '!w-20 !h-10 !font-normal',
-    acceptLabel: t('editor.delete-page-dialog-confirm-button-message'),
-    rejectLabel: t('editor.delete-page-dialog-cancel-button-message'),
+    acceptLabel: $t('editor.delete-page-dialog-confirm-button-message'),
+    rejectLabel: $t('editor.delete-page-dialog-cancel-button-message'),
     accept: async () => {
       const pagesProxyClone = JSON.parse(JSON.stringify(editor.value.doc.pages));
-      const pagesUpdated = pagesProxyClone.filter((page: IDocumentationCategory) => page.id != pageId);
+      const pagesUpdated = pagesProxyClone.filter((page: IDocumentationPage) => page.id != pageId);
 
       editor.value.doc.pages = pagesUpdated;
       if(pageId === editor.value.currentSelectedPage?.id) {
@@ -105,11 +103,9 @@ function deletePageConfirmDialog(pageId: number) {
             <font-awesome-icon icon="fa-solid fa-trash" class="text-[17px] text-[#e07575]"></font-awesome-icon>
           </Button>
         </div>
-        <!--Category Pages-->
         <ul class="flex flex-col">
           <li v-for="page in editor.doc.pages.filter(page => page.categoryId === category.id)">
             <div class="group flex items-center justify-between">
-              <!--Page Button-->
               <button
                 @click="handlePageChange(page.id)"
                 :title="page.title"
@@ -118,7 +114,6 @@ function deletePageConfirmDialog(pageId: number) {
               >
                 {{ page.title }}
               </button>
-              <!--Delete page button-->
               <Button
                 @click="deletePageConfirmDialog(page.id)"
                 class="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto hover:!bg-[#f99999]/20 !w-[30px] !h-[30px] border-none"

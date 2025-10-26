@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const isMobile = ref(false);
+import StarsRain from '~/shared/components/utils/StarsRain.vue';
 
 type Item = {
   icon: string,
@@ -8,52 +8,50 @@ type Item = {
   new?: boolean
 };
 
-const { t } = useI18n();
-
 const topItems = ref<Item[]>([
   {
     icon: 'fa-solid fa-download',
-    title: t('homepage.features-export-title'),
-    description: t('homepage.features-export-description')
+    title: $t('homepage.features-export-title'),
+    description: $t('homepage.features-export-description')
   },
   {
     icon: 'fa-solid fa-upload',
-    title: t('homepage.features-import-title'),
-    description: t('homepage.features-import-description')
+    title: $t('homepage.features-import-title'),
+    description: $t('homepage.features-import-description')
   },
   {
     icon: 'fa-solid fa-microchip',
-    title: t('homepage.features-customizations-title'),
-    description: t('homepage.features-customizations-description'),
+    title: $t('homepage.features-customizations-title'),
+    description: $t('homepage.features-customizations-description'),
     new: true
   },
   {
     icon: 'fa-solid fa-palette',
-    title: t('homepage.features-colors-title'),
-    description: t('homepage.features-colors-description')
+    title: $t('homepage.features-colors-title'),
+    description: $t('homepage.features-colors-description')
   }
 ]);
 
 const bottomItems = ref<Item[]>([
   {
     icon: 'fa-solid fa-eye',
-    title: t('homepage.features-preview-title'),
-    description: t('homepage.features-preview-description')
+    title: $t('homepage.features-preview-title'),
+    description: $t('homepage.features-preview-description')
   },
   {
     icon: 'fa-brands fa-markdown',
-    title: t('homepage.features-markdown-title'),
-    description: t('homepage.features-markdown-description')
+    title: $t('homepage.features-markdown-title'),
+    description: $t('homepage.features-markdown-description')
   },
   {
     icon: 'fa-solid fa-code',
-    title: t('homepage.features-codeblocks-title'),
-    description: t('homepage.features-cobeblocks-description')
+    title: $t('homepage.features-codeblocks-title'),
+    description: $t('homepage.features-cobeblocks-description')
   },
   {
     icon: 'fa-solid fa-table',
-    title: t('homepage.features-tables-title'),
-    description: t('homepage.features-tables-description')
+    title: $t('homepage.features-tables-title'),
+    description: $t('homepage.features-tables-description')
   }
 ]);
 
@@ -76,9 +74,7 @@ onMounted(() => {
   <section id="featuressection" class="w-full flex max-w-[1600px] mx-auto min-h-[300px] px-20 mt-2">
     <hr class="max-[1344px]:hidden side-separator w-0.5 h-[300px] border-none" />
     <div class="w-full flex flex-col">
-      <!--Top cards container-->
       <div class="w-full flex justify-center flex-wrap">
-        <!--Top cards-->
         <div class="flex grow min-w-[250px] w-[295px]" v-for="(item, i) in topItems">
           <hr class="min-[1344px]:hidden side-separator min-w-[2px] h-full border-none" v-if="i === 0" />
           <div 
@@ -96,9 +92,7 @@ onMounted(() => {
         </div>
       </div>
       <hr class="max-[1344px]:hidden middle-separator" />
-      <!--Bottom cards container-->
       <div class="w-full flex justify-center flex-wrap">
-        <!--Bottom cards-->
         <div class="flex grow min-w-[250px] w-[295px]" v-for="(item, i) in bottomItems">
           <hr class="min-[1344px]:hidden side-separator min-w-[2px] h-full border-none rotate-180" v-if="i === 0" />
           <div
@@ -146,10 +140,10 @@ onMounted(() => {
 
 .new-button-gradient {
     background: linear-gradient(180deg, rgba(25,29,43,0) 0%, rgba(111,97,191,0.2) 100%); 
-  }
+}
 
 .new-button-gradient:hover {
-  background: linear-gradient(180deg, rgba(25,29,43,0) 0%, rgba(111,97,191, 0.3) 100%);
+  background: linear-gradient(180deg, rgba(25,29,43,0) 0%, rgba(111,97,191,0.3) 100%);
 }
 
 .new-button-text-gradient {
