@@ -1,19 +1,24 @@
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
+import i18nConfig from './i18n.config'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtConfig({
-  // ❌ 'compatibilityDate' foi removido do Nuxt 4
-  // ❌ 'experimental.oxc' não existe mais
-  modules: [
-    '@nuxtjs/i18n',
-    '@nuxt/image'
-  ],
+  modules: ['@nuxtjs/i18n', '@nuxt/image'],
+
+  i18n: {
+    ...i18nConfig,
+    defaultLocale: 'en',
+    locales: [
+      { code: 'en', iso: 'en-US', name: 'English', file: resolve(__dirname, 'src/locales/en.json') },
+      { code: 'pt', iso: 'pt-BR', name: 'Português', file: resolve(__dirname, 'src/locales/pt.json') },
+    ]
+  },
 
   image: {
     provider: 'static',
-    dir: 'public/images', // não precisa array
+    dir: 'public/images',
   },
 
   plugins: [
@@ -40,18 +45,6 @@ export default defineNuxtConfig({
     ]
   },
 
-  i18n: {
-  vueI18n: './i18n.config.ts',
-  defaultLocale: 'en',
-  legacy: false,
-  runtimeOnly: false,
-  locales: [
-    { code: 'en', iso: 'en-US', name: 'English', file: resolve(__dirname, 'src/locales/en.json') },
-    { code: 'pt', iso: 'pt-BR', name: 'Português', file: resolve(__dirname, 'src/locales/pt.json') }, // <--- ajuste
-  ],
-},
-
-
   devtools: { enabled: true },
 
   srcDir: 'src',
@@ -63,12 +56,11 @@ export default defineNuxtConfig({
   ],
 
   postcss: {
-  plugins: {
-    autoprefixer: {},
-    '@tailwindcss/postcss': {},
+    plugins: {
+      autoprefixer: {},
+      '@tailwindcss/postcss': {},
+    },
   },
-},
-
 
   vite: {
     resolve: {
@@ -77,8 +69,6 @@ export default defineNuxtConfig({
         '/images': resolve(__dirname, 'public/images')
       }
     },
-    build: {
-      chunkSizeWarningLimit: 2000
-    }
+    build: { chunkSizeWarningLimit: 2000 }
   }
 })

@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import lodash from 'lodash';
-import Tailwind from "primevue/passthrough/tailwind";
 import AppIcon from '~/shared/components/icons/AppIcon.vue';
 import ScrollPanel from 'primevue/scrollpanel';
-import { usePassThrough } from 'primevue/passthrough';
 import { useCustomize } from '~/shared/states/customizeState';
 import { Status } from "~/@types/status";
 import { Documentation, IDocumentationCustomization } from "~/database/models/Documentation";
@@ -15,6 +13,13 @@ const { params } = useRoute();
 const docId = Number(params.id) || 0;
 
 const customize = useCustomize();
+// PrimeVue passthrough simplificado
+const pt = {
+  scrollpanel: { barY: '!bg-secondary/30 contrast-200' },
+  button: { root: 'bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded' },
+  inputtext: { root: 'border p-2 rounded' }
+};
+
 
 async function handleSave() {
   if(!customize.value.controlsMenu.isSaved) {

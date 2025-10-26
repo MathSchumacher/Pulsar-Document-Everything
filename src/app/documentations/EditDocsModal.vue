@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import { Documentation, IDocumentation, IDocumentationColorPalette } from '~/database/models/Documentation';
-import Tailwind from "primevue/passthrough/tailwind";
 import InputText from 'primevue/inputtext';
 import TextArea from 'primevue/textarea';
 import ScrollPanel from 'primevue/scrollpanel';
 import InputSwitch from 'primevue/inputswitch';
 import DocPrototype from '~/shared/components/DocPrototype.vue';
 import { useDocumentations } from '~/shared/states/documentationsState';
-import { usePassThrough } from 'primevue/passthrough';
 import { Status } from '~/@types/status';
 
 const { docId, isOpen } = defineProps<{ docId: number, isOpen: boolean }>();
 const emit = defineEmits(['close-modal']);
 const docs = useDocumentations();
 const docInfos = docs.value.data.find(doc => doc.id === docId);
+// PrimeVue passthrough simplificado
+const pt = {
+  scrollpanel: { barY: '!bg-secondary/30 contrast-200' },
+  button: { root: 'bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded' },
+  inputtext: { root: 'border p-2 rounded' }
+};
+
 
 const formData = ref<Pick<IDocumentation, 'title' | 'description' | 'features'>>({
   title: docInfos?.title || '',
