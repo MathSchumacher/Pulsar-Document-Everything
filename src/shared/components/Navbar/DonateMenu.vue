@@ -5,7 +5,7 @@ import BuyMeACoffeIcon from '../icons/BuyMeACoffeIcon.vue';
 const navbar = useNavbar();
 
 function copyPix() {
-  window.navigator.clipboard.writeText('diogopereira.conta.pix@gmail.com');
+  window.navigator.clipboard.writeText('03752835010');
   navbar.value.donateMenu.isCopiedPix = true;
 }
 
@@ -48,31 +48,6 @@ onMounted(() => {
         z-[9999]
       `"
     >
-      <a
-        href="https://www.buymeacoffee.com/diogopereiy"
-        target="_blank"
-        rel="noreferrer"
-        class="group block w-[350px] h-full rounded-[15px] hover:-translate-y-3 duration-300 cursor-pointer"
-      >
-        <div class="relative flex flex-col items-center w-full h-[70%] bg-secondary_darken group-hover:bg-[#dbd57b] rounded-t-[15px] duration-300 pt-10">
-          <BuyMeACoffeIcon
-            color="#d3d3d3"
-            class="w-[100px] group-hover:!fill-secondary_darken duration-300"
-          />
-          <p class="absolute bottom-10 px-10 text-center text-primary/70 group-hover:text-darken mt-10">
-            {{ $t('navbar.donate-buy-me-a-coffe-description') }}
-          </p>
-        </div>
-        <div class="flex items-center justify-center w-full h-[30%] bg-secondary_darken/40 rounded-b-[15px]">
-          <button class="flex items-center gap-2.5 bg-[#c2bb59] text-darken rounded-[15px] px-6 h-12">
-            <BuyMeACoffeIcon
-              color="#131524"
-              class="w-[40px]"
-            />
-            Buy me a coffe
-          </button>
-        </div>
-      </a>
       <div
         @click="copyPix()"
         class="group block w-[350px] h-full rounded-[15px] hover:-translate-y-3 duration-300 cursor-pointer"
@@ -85,7 +60,7 @@ onMounted(() => {
         </div>
         <div class="flex items-center justify-center w-full h-[30%] bg-secondary_darken/40 rounded-b-[15px]">
           <button class="flex items-center gap-2.5 bg-[#70cf64] text-darken rounded-[15px] px-5 h-12 duration-300">
-            {{ navbar.donateMenu.isCopiedPix? $t('navbar.pix-copied') : 'diogopereira.conta.pix@gmail.com' }}
+            {{ navbar.donateMenu.isCopiedPix? $t('navbar.pix-copied') : '03752835010' }}
           </button>
         </div>
       </div>

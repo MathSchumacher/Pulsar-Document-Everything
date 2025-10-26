@@ -4,7 +4,7 @@ export function License(doc: IDocumentation) {
   return `
 MIT License
 
-Copyright (c) 2023 ${doc.title}
+Copyright (c) 2025 ${doc.title}
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

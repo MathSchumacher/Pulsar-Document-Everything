@@ -26,6 +26,6 @@ You can deploy your documentation on any website hosting provider that supports 
 ## Repository
 Please star the Pulsar project on GitHub: 
 
-https://github.com/FhillSlinger/pulsar
+https://github.com/MathSchumacher/Pulsar-Document-Everything
   `;
 }

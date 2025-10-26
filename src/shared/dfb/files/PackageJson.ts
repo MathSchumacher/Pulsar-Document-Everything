@@ -18,7 +18,7 @@ export function PackageJson(doc: IDocumentation) {
       },
       "devDependencies": {
         "glob": "^10.3.10",
-        "vite": "^4.4.5"
+        "vite": "^7.1.12"
       }
     }
   `, {

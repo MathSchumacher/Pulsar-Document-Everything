@@ -2,22 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Definindo base global */
 @layer base {
+  body {
+    font-family: 'Roboto', 'Inter', 'Open Sans', sans-serif;
+    background-color: #0f111b; /* bg-background */
+    color: #f0f0f0; /* text-primary */
+    scroll-behavior: smooth;
+  }
+
   * {
     scrollbar-width: auto;
-    scroll-behavior: smooth;
-    @apply !font-default;
   }
 
-  body {
-    @apply bg-background;
+  *::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    background: transparent;
   }
 
-  ::-webkit-scrollbar {
-    @apply w-[4px] h-[4px] bg-transparent;
+  *::-webkit-scrollbar-thumb {
+    background-color: #7665d7cc;
+  }
+}
+
+/* Se quiser, ainda pode criar utilitárias personalizadas */
+@layer utilities {
+  .bg-background {
+    background-color: #0f111b;
   }
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-primary/80;
+  .text-primary {
+    color: #f0f0f0;
+  }
+
+  .text-secondary {
+    color: #7665d7;
+  }
+
+  .text-darken {
+    color: #131524;
   }
 }

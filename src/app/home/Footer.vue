@@ -18,7 +18,7 @@ const navbar = useNavbar();
         </div>
         <div class="absolute bottom-14 flex flex-col">
           <a
-            href="https://github.com/FhillSlinger/pulsar"
+            href="https://github.com/MathSchumacher/Pulsar-Document-Everything"
             target="_blank"
             rel="noreferrer"
             class="p-1"
@@ -64,7 +64,7 @@ const navbar = useNavbar();
             </li>
             <li>
               <a 
-                href="https://github.com/FhillSlinger/pulsar"
+                href="https://github.com/MathSchumacher/Pulsar-Document-Everything"
                 target="_blank"
                 rel="noreferrer"
                 class="text-base text-primary/50 hover:text-secondary/80 duration-300 font-normal"
@@ -84,7 +84,7 @@ const navbar = useNavbar();
           <ul class="space-y-3 mt-4">
             <li>
               <a
-                href="https://github.com/FhillSlinger/pulsar/graphs/contributors"
+                href="https://github.com/MathSchumacher/"
                 target="_blank"
                 rel="noreferrer"
                 class="text-base text-primary/50 hover:text-secondary/80 duration-300 font-normal"
@@ -94,7 +94,7 @@ const navbar = useNavbar();
             </li>
             <li>
               <a
-                href="https://diogopereira.tech"
+                href="https://matheus-schumacher.vercel.app/"
                 target="_blank"
                 rel="noreferrer"
                 class="text-base text-primary/50 hover:text-secondary/80 duration-300 font-normal"
@@ -104,7 +104,7 @@ const navbar = useNavbar();
             </li>
             <li>
               <a
-                href="https://github.com/FhillSlinger"
+                href="https://github.com/MathSchumacher/Pulsar-Document-Everything"
                 target="_blank"
                 rel="noreferrer"
                 class="text-base text-primary/50 hover:text-secondary/80 duration-300 font-normal"

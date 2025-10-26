@@ -32,7 +32,7 @@ onMounted(() => {
           </li>
           <li>
             <a 
-              href="https://github.com/FhillSlinger/pulsar"
+              href="https://github.com/MathSchumacher/Pulsar-Document-Everything"
               target="_blank"
               rel="noreferrer"
               class="text-primary/80 hover:text-secondary/90 duration-300 font-normal"
@@ -42,7 +42,7 @@ onMounted(() => {
           </li>
           <li>
             <a 
-              href="https://github.com/FhillSlinger/pulsar" 
+              href="https://github.com/MathSchumacher/Pulsar-Document-Everything" 
               target="_blank" 
               rel="noreferrer" 
               class="text-primary/80 hover:text-secondary/90 duration-300 font-normal"

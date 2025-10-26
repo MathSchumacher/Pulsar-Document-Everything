@@ -18,7 +18,7 @@ function closeMobileMenu() {
 
 
 function copyPix() {
-  window.navigator.clipboard.writeText('diogopereira.conta.pix@gmail.com');
+  window.navigator.clipboard.writeText('03752835010');
   navbar.value.donateMenu.isCopiedPix = true;
 }
 
@@ -92,7 +92,7 @@ onMounted(() => {
           </li>
           <li>
             <a
-              href="https://github.com/FhillSlinger/pulsar"
+              href="https://github.com/MathSchumacher/Pulsar-Document-Everything"
               target="_blank"
               rel="noreferrer"
               class="block text-primary/90 hover:text-secondary/90 duration-300 font-normal w-full py-1"
@@ -102,7 +102,7 @@ onMounted(() => {
           </li>
           <li>
             <a 
-              href="https://github.com/FhillSlinger/pulsar" 
+              href="https://github.com/MathSchumacher/Pulsar-Document-Everything" 
               target="_blank" 
               rel="noreferrer" 
               class="block text-primary/90 hover:text-secondary/90 duration-300 font-normal w-full py-1"
@@ -122,19 +122,6 @@ onMounted(() => {
           <font-awesome-icon icon="fa-solid fa-close" class="text-[20px] text-primary/70"></font-awesome-icon>
         </button>
         <ul class="w-full flex flex-col gap-3 p-6 mt-14">
-          <li>
-            <a
-              href="https://www.buymeacoffee.com/diogopereiy"
-              target="_blank"
-              rel="noreferrer"
-              class="text-left w-full h-11 flex items-center gap-0.5 bg-[#c2bb59] rounded-[15px] px-1"
-            >
-              <BuyMeACoffeIcon
-                class="w-[45px] !fill-secondary_darken"
-              />
-              Buy me a coffe
-            </a>
-          </li>
           <li>
             <button @click="copyPix()" class="text-left w-full h-11 flex items-center gap-4 bg-[#70cf64] rounded-[15px] px-4">
               <font-awesome-icon icon="fa-brands fa-pix" class="text-darken text-[20px] duration-300"></font-awesome-icon>

@@ -1,13 +1,10 @@
-import en from '~/locales/en.json';
-import pt from '~/locales/pt.json';
+import { defineI18nConfig } from '@nuxtjs/i18n'
 
 export default defineI18nConfig(() => ({
   legacy: false,
   locale: 'en',
-  messages: {
-    en,
-    pt
-  },
+  fallbackLocale: 'en',
+  messages: {}, // pode ficar vazio se estiver usando lazy loading (langDir)
   datetimeFormats: {
     en: {
       short: {
@@ -40,4 +37,4 @@ export default defineI18nConfig(() => ({
       }
     }
   }
-}));
+}))

@@ -1,72 +1,84 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'node:url'
+import { dirname, resolve } from 'node:path'
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtConfig({
-  compatibilityDate: '2025-10-01',
-  experimental: {
-    oxc: false // Desativa o OXC explicitamente
-  },
+  // ❌ 'compatibilityDate' foi removido do Nuxt 4
+  // ❌ 'experimental.oxc' não existe mais
   modules: [
     '@nuxtjs/i18n',
-    '@nuxt/image',
+    '@nuxt/image'
   ],
+
   image: {
-    provider: 'static', // Evita uso do sharp
+    provider: 'static',
+    dir: 'public/images', // não precisa array
   },
+
   plugins: [
     './plugins/fontawesome.ts',
     './plugins/primevue.ts',
-    './plugins/directives.ts',
+    './plugins/directives.ts'
   ],
+
   nitro: {
     compressPublicAssets: true,
-    minify: true,
+    minify: true
   },
+
   routeRules: {
-    '/**': { prerender: true },
+    '/**': { prerender: true }
   },
+
   build: {
     transpile: [
       '@fortawesome/vue-fontawesome',
       '@fortawesome/fontawesome-svg-core',
       '@fortawesome/free-solid-svg-icons',
-      'primevue',
-    ],
+      'primevue'
+    ]
   },
+
   i18n: {
-    vueI18n: './i18n.config.ts',
-    defaultLocale: 'en',
-    legacy: false,
-    runtimeOnly: false,
-    compilation: { jit: false },
-    locales: [
-      { code: 'en', iso: 'en-US', name: 'English', file: 'locales/en.json' },
-      { code: 'pt', iso: 'pt-BR', name: 'Português', file: 'locales/pt.json' },
-    ],
-  },
+  vueI18n: './i18n.config.ts',
+  defaultLocale: 'en',
+  legacy: false,
+  runtimeOnly: false,
+  locales: [
+    { code: 'en', iso: 'en-US', name: 'English', file: resolve(__dirname, 'src/locales/en.json') },
+    { code: 'pt', iso: 'pt-BR', name: 'Português', file: resolve(__dirname, 'src/locales/pt.json') }, // <--- ajuste
+  ],
+},
+
+
   devtools: { enabled: true },
+
   srcDir: 'src',
-  postcss: {
-    plugins: {
-      autoprefixer: {},
-      tailwindcss: {},
-    },
-  },
+  publicDir: 'public',
+
   css: [
     '~/shared/assets/globals.css',
-    '@fortawesome/fontawesome-svg-core/styles.css',
+    '@fortawesome/fontawesome-svg-core/styles.css'
   ],
+
+  postcss: {
+  plugins: {
+    autoprefixer: {},
+    '@tailwindcss/postcss': {},
+  },
+},
+
+
   vite: {
     resolve: {
       alias: {
         '~': resolve(__dirname, './src'),
-      },
+        '/images': resolve(__dirname, 'public/images')
+      }
     },
     build: {
-      chunkSizeWarningLimit: 2000,
-    },
-  },
-});
+      chunkSizeWarningLimit: 2000
+    }
+  }
+})

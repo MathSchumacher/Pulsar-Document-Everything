@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import { Documentation, IDocumentation, IDocumentationColorPalette, documentationDataEmptyObj } from '~/database/models/Documentation';
-import Tailwind from "primevue/passthrough/tailwind";
 import InputText from 'primevue/inputtext';
 import TextArea from 'primevue/textarea';
 import ScrollPanel from 'primevue/scrollpanel';
 import InputSwitch from 'primevue/inputswitch';
+import Button from 'primevue/button';
 import DocPrototype from '~/shared/components/DocPrototype.vue';
 import { useDocumentations } from '~/shared/states/documentationsState';
-import { usePassThrough } from 'primevue/passthrough';
 import { Status } from '~/@types/status';
 import HexColorPicker from '~/shared/components/utils/HexColorPicker.vue';
+
+// Novo objeto pt simplificado para ScrollPanel
+const pt = {
+  scrollpanel: {
+    barY: 'max-xl:hidden ml-10 !bg-secondary/30 contrast-200'
+  }
+};
 
 const docs = useDocumentations();
 const { id, createdAt, pages, ...formInitialData } = documentationDataEmptyObj;
@@ -17,7 +23,7 @@ const formData = ref<Omit<IDocumentation, 'id' | 'createdAt' | 'pages'>>(formIni
 
 const onColorChange = (type: keyof IDocumentationColorPalette, val: string) => {
   formData.value.colors[type] = `#${val}`;
-}
+};
 
 const handleDocCreate = async () => {
   const payload = {
@@ -30,10 +36,7 @@ const handleDocCreate = async () => {
 
   if(result === Status.OK) {
     docs.value.newDocsModalIsOpen = !docs.value.newDocsModalIsOpen;
-    docs.value.data = [
-      ...docs.value.data,
-      payload
-    ];
+    docs.value.data = [...docs.value.data, payload];
     formData.value.title = '';
     formData.value.description = '';
   } else {
@@ -41,42 +44,21 @@ const handleDocCreate = async () => {
   }
 };
 
-// Array to dinamically generate "color pickers" of the modal
 type ColorNames = keyof IDocumentationColorPalette;
-const colors: ColorNames[] = [
-  'background',
-  'primary',
-  'secondary',
-  'text',
-  'divider'
-];
+const colors: ColorNames[] = ['background', 'primary', 'secondary', 'text', 'divider'];
 </script>
 
 <template>
   <div :class="`${docs.newDocsModalIsOpen? 'opacity-1' : 'opacity-0 pointer-events-none'} duration-300 fixed left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 flex max-xl:flex-col min-w-full xl:min-w-[400px] h-full xl:h-[450px] bg-secondary xl:rounded-lg max-xl:overflow-scroll z-[91]`">
     <!--Doc prototype-->
     <div class="flex justify-center items-center w-full xl:w-[400px] max-xl:py-8 bg-secondary_darken h-full rounded-l-[10px]">
-      <DocPrototype
-        :colors="formData.colors"
-        :features="formData.features"
-        navbar
-      />
+      <DocPrototype :colors="formData.colors" :features="formData.features" navbar />
     </div>
     <!--Form-->
     <div class="w-full xl:w-[450px] p-10">
       <h2 class="text-primary/80 text-xl font-medium">{{ $t('documentations.new-doc-modal-title') }}</h2>
       <hr class="w-full h-px bg-divider border-none mt-5" />
-      <ScrollPanel 
-        class="relative w-full h-[calc(100%-10px)]"
-        :pt="
-          usePassThrough(Tailwind, { 
-            scrollpanel: { 
-              barY: 'max-xl:hidden ml-10 !bg-secondary/30 contrast-200' 
-            } 
-          }, 
-          { mergeProps: true, mergeSections: true }
-        )"
-      >
+      <ScrollPanel class="relative w-full h-[calc(100%-10px)]" :pt="pt">
         <form @submit.prevent="handleDocCreate()" class="relative w-full h-full flex flex-col">
           <!--Title input-->
           <div class="w-full flex flex-col gap-2 mt-5">
@@ -107,17 +89,10 @@ const colors: ColorNames[] = [
           <div class="w-full flex flex-col gap-2 mt-7">
             <label class="text-md text-primary/70 font-medium">{{ $t('documentations.new-doc-modal-colors-area-title') }}</label>
             <div class="flex flex-wrap gap-6 mt-2.5">
-              <div
-                v-for="color of colors"
-                :key="color"
-                class="w-full sm:max-w-[105px] flex flex-col gap-2"
-              >
+              <div v-for="color of colors" :key="color" class="w-full sm:max-w-[105px] flex flex-col gap-2">
                 <label class="text-sm text-primary/40 font-medium">{{ color }}</label>
                 <HexColorPicker
-                  :toggler-button="{
-                    width: '100%',
-                    height: '38px'
-                  }"
+                  :toggler-button="{ width: '100%', height: '38px' }"
                   :model-value="formData.colors[color]"
                   @update:model-value="(val: string) => onColorChange(color, val)"
                 />
