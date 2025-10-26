@@ -68,7 +68,6 @@
     "lowlight": "^3.0.0",
     "path-browserify": "^1.0.1",
     "primevue": "^3.34.1",
-    "sharp": "^0.34.4",
     "splitpanes": "^3.1.5",
     "stream": "^0.0.2",
     "tiptap-markdown": "^0.8.2",
@@ -99,7 +98,16 @@
     "tailwindcss": "^3.3.3"
   },
   "pnpm": {
-  "onlyBuiltDependencies": ["sharp"]
-}
-
+    "overrides": {
+      "oxc-parser": "0.70.0",
+      "@intlify/shared": "^9.4.1"
+    },
+    "onlyBuiltDependencies": [
+      "@intlify/vue-i18n-bridge",
+      "@intlify/vue-router-bridge",
+      "@parcel/watcher",
+      "esbuild",
+      "vue-demi"
+    ]
+  }
 }
