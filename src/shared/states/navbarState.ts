@@ -1,20 +1,18 @@
-import { LocaleObject } from '#i18n';
-
-type NavbarStateType = {
+// src/shared/states/navbarState.ts
+export type NavbarStateType = {
   donateMenu: {
     isOpen: boolean,
     isCopiedPix: boolean,
-    isCopiedTimer: NodeJS.Timeout | undefined
+    // Remova o timer do estado - gerencie-o localmente no componente
   },
   mobileMenuIsOpen: boolean,
-  selectedLocale: LocaleObject | undefined
+  selectedLocale: string | undefined
 };
 
 export const useNavbar = () => useState<NavbarStateType>('navbarState', () => ({
   donateMenu: {
     isOpen: false,
-    isCopiedPix: false,
-    isCopiedTimer: undefined
+    isCopiedPix: false
   },
   mobileMenuIsOpen: false,
   selectedLocale: undefined

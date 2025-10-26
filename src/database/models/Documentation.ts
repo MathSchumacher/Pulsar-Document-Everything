@@ -1,64 +1,65 @@
-import { Status } from "~/@types/status";
-import { dbConnect } from "..";
+// src/database/models/Documentation.ts
+import { Status } from '~/@types/status';
+import { dbConnect } from '..';
 
 export type IDocumentation = {
-  id: number,
-  title: string,
-  navigationTitle: string,
-  navigationSubTitle: string,
-  indexesTableTitle: string,
-  description: string,
-  categories: IDocumentationCategory[],
-  pages: IDocumentationPage[],
-  colors: IDocumentationColorPalette,
-  customizations: IDocumentationCustomization[],
+  id: number;
+  title: string;
+  navigationTitle: string;
+  navigationSubTitle: string;
+  indexesTableTitle: string;
+  description: string;
+  categories: IDocumentationCategory[];
+  pages: IDocumentationPage[];
+  colors: IDocumentationColorPalette;
+  customizations: IDocumentationCustomization[];
   features: {
-    autoSave: boolean,
-    indexesTable: boolean
-  },
-  createdAt: number
+    autoSave: boolean;
+    indexesTable: boolean;
+  };
+  createdAt: number;
 };
 
 export type IDocumentationCategory = {
-  id: number,
-  label: string
+  id: number;
+  label: string;
 };
 
 export type IDocumentationPage = {
-  id: number,
-  categoryId: number,
-  title: string,
-  content: string,
-  createdAt: number
+  id: number;
+  categoryId: number;
+  title: string;
+  content: string;
+  createdAt: number;
 };
 
 export type IDocumentationColorPalette = {
-  background: string,
-  primary: string,
-  secondary: string,
-  text: string,
-  divider: string,
-  codeBlockText: string,
-  codeBlockVariable: string,
-  codeBlockLiteral: string,
-  codeBlockKeyword: string,
-  codeBlockString: string,
-  codeBlockSection: string,
-  codeBlockComments: string
+  background: string;
+  primary: string;
+  secondary: string;
+  text: string;
+  divider: string;
+  codeBlockText: string;
+  codeBlockVariable: string;
+  codeBlockLiteral: string;
+  codeBlockKeyword: string;
+  codeBlockString: string;
+  codeBlockSection: string;
+  codeBlockComments: string;
 };
 
 export type IDocumentationCustomization = {
-  id: number,
-  title: string,
-  region: 'left' | 'right' | 'top' | 'bottom',
+  id: number;
+  title: string;
+  region: 'left' | 'right' | 'top' | 'bottom';
   content: {
-    html: string,
-    css: string,
-    javascript: string
-  }
+    html: string;
+    css: string;
+    javascript: string;
+  };
 };
 
-const defaultColors = {
+const defaultColors: IDocumentationColorPalette = {
   background: '#0a0a14',
   primary: '#7665d7',
   secondary: '#18182e',
@@ -70,7 +71,7 @@ const defaultColors = {
   codeBlockKeyword: '#9e5fd9',
   codeBlockString: '#B9F18D',
   codeBlockSection: '#70c25b',
-  codeBlockComments: '#616161'
+  codeBlockComments: '#616161',
 };
 
 export const documentationDataEmptyObj: IDocumentation = {
@@ -86,15 +87,20 @@ export const documentationDataEmptyObj: IDocumentation = {
   customizations: [],
   features: {
     autoSave: true,
-    indexesTable: true
+    indexesTable: true,
   },
-  createdAt: 0
+  createdAt: 0,
 };
 
 export class Documentation {
-  static TABLE_NAME: string = 'documentations';
+  static TABLE_NAME = 'documentations';
 
-  private static async withStore(mode: IDBTransactionMode, callback: (store: IDBObjectStore) => void): Promise<Status> {
+  private static async withStore(
+    mode: IDBTransactionMode,
+    callback: (store: IDBObjectStore) => void
+  ): Promise<Status> {
+    if (process.server) return Status.ERROR; // Protege contra SSR
+
     return new Promise((resolve, reject) => {
       dbConnect((db) => {
         const transaction = db.transaction([this.TABLE_NAME], mode);
@@ -108,61 +114,46 @@ export class Documentation {
   }
 
   static async create(payload: IDocumentation): Promise<Status> {
-    return this.withStore('readwrite', (store) => {
-      store.add(payload);
-    });
+    return this.withStore('readwrite', (store) => store.add(payload));
   }
 
   static async edit(id: number, payload: Partial<IDocumentation>): Promise<Status> {
+    if (process.server) return Status.ERROR;
+
     const oldDoc = await this.get(id);
+    if (!oldDoc) return Status.ERROR;
 
-    if (!oldDoc) {
-      return Status.ERROR;
-    }
-
-    return this.withStore('readwrite', (store) => {
-      store.put({
-        ...oldDoc,
-        ...payload,
-      });
-    });
+    return this.withStore('readwrite', (store) =>
+      store.put({ ...oldDoc, ...payload })
+    );
   }
 
   static async delete(id: number): Promise<Status> {
-    return this.withStore('readwrite', (store) => {
-      store.delete(id);
-    });
+    if (process.server) return Status.ERROR;
+
+    return this.withStore('readwrite', (store) => store.delete(id));
   }
 
   static async get(id: number): Promise<IDocumentation | undefined> {
+    if (process.server) return undefined;
+
     return new Promise((resolve, reject) => {
       this.withStore('readonly', (store) => {
         const request = store.get(id);
-
-        request.onsuccess = (ev) => {
-          const result: IDocumentation = request.result;
-          resolve(result);
-        };
-        request.onerror = (ev) => {
-          reject(undefined);
-        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(undefined);
       });
     });
   }
 
-  static async getAll(): Promise<IDocumentation[] | undefined> {
+  static async getAll(): Promise<IDocumentation[]> {
+    if (process.server) return [];
+
     return new Promise((resolve, reject) => {
-      this.withStore('readonly', store => {
+      this.withStore('readonly', (store) => {
         const request = store.getAll();
-
-        request.onerror = (ev) => {
-          reject(undefined);
-        }
-
-        request.onsuccess = (ev) => {
-          const result: IDocumentation[] = request.result;
-          resolve(result);
-        } 
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject([]);
       });
     });
   }

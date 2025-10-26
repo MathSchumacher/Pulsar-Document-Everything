@@ -1,22 +1,14 @@
-import { defineNuxtPlugin } from '#app';
-import { useI18n } from '#i18n';
+import { defineNuxtPlugin } from '#app'
+import { useNavbar } from '~/shared/states/navbarState'
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const i18n = useI18n();
+  const navbar = useNavbar()
 
-  // Injeta as funções no contexto global do Vue
-  nuxtApp.vueApp.config.globalProperties.$t = i18n.t;
-  nuxtApp.vueApp.config.globalProperties.$d = i18n.d;
-  nuxtApp.vueApp.config.globalProperties.$localeProperties = i18n.localeProperties;
-  nuxtApp.vueApp.config.globalProperties.$setLocale = i18n.setLocale;
+  const i18n = (nuxtApp as any).$i18n ?? (nuxtApp.vueApp && (nuxtApp.vueApp as any).config?.globalProperties?.$i18n)
+  if (!i18n) return
 
-  // Retorna as funções para uso em <script setup>
-  return {
-    provide: {
-      t: i18n.t,
-      d: i18n.d,
-      localeProperties: i18n.localeProperties,
-      setLocale: i18n.setLocale,
-    },
-  };
-});
+  navbar.value.t = typeof i18n.t === 'function' ? i18n.t.bind(i18n) : (k: any) => k
+  navbar.value.d = typeof i18n.d === 'function' ? i18n.d.bind(i18n) : () => ''
+  navbar.value.setLocale = typeof i18n.setLocale === 'function' ? i18n.setLocale.bind(i18n) : undefined
+  navbar.value.localeProperties = i18n.localeProperties ?? undefined
+})

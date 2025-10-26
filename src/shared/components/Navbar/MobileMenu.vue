@@ -1,43 +1,51 @@
 <script setup lang="ts">
-import BuyMeACoffeIcon from '~/shared/components/icons/BuyMeACoffeIcon.vue';
-import Dropdown from 'primevue/dropdown';
-import { useNavbar } from '~/shared/states/navbarState';
+import BuyMeACoffeIcon from '~/shared/components/icons/BuyMeACoffeIcon.vue'
+import Dropdown from 'primevue/dropdown'
+import { useNavbar } from '~/shared/states/navbarState'
 
-const navbar = useNavbar();
+// pegando i18n do plugin
+const navbar = useNavbar()
+const { t, localeProperties, setLocale } = navbar.value
 
 function openMobileMenu() {
-  navbar.value.mobileMenuIsOpen = true;
-  document.body.style.overflow = 'hidden';
+  navbar.value.mobileMenuIsOpen = true
+  document.body.style.overflow = 'hidden'
 }
 
 function closeMobileMenu() {
-  navbar.value.mobileMenuIsOpen = false;
-  document.body.style.overflow = 'auto';
+  navbar.value.mobileMenuIsOpen = false
+  document.body.style.overflow = 'auto'
 }
 
 function copyPix() {
-  window.navigator.clipboard.writeText('03752835010');
-  navbar.value.donateMenu.isCopiedPix = true;
+  window.navigator.clipboard.writeText('03752835010')
+  navbar.value.donateMenu.isCopiedPix = true
 }
 
-watch(() => navbar.value.donateMenu.isCopiedPix, (newIsCopied) => {
-  if(!newIsCopied) return;
+watch(
+  () => navbar.value.donateMenu.isCopiedPix,
+  (newIsCopied) => {
+    if (!newIsCopied) return
 
-  if(navbar.value.donateMenu.isCopiedTimer) clearTimeout(navbar.value.donateMenu.isCopiedTimer);
-  navbar.value.donateMenu.isCopiedTimer = setTimeout(() => {
-    navbar.value.donateMenu.isCopiedPix = false;
-  }, 1500);
-});
-
-watch(() => navbar.value.selectedLocale, () => {
-  if(navbar.value.selectedLocale) {
-    $setLocale(navbar.value.selectedLocale.code);
+    if (navbar.value.donateMenu.isCopiedTimer)
+      clearTimeout(navbar.value.donateMenu.isCopiedTimer)
+    navbar.value.donateMenu.isCopiedTimer = setTimeout(() => {
+      navbar.value.donateMenu.isCopiedPix = false
+    }, 1500)
   }
-});
+)
+
+watch(
+  () => navbar.value.selectedLocale,
+  (newLocale) => {
+    if (newLocale) setLocale(newLocale.code)
+  }
+)
 
 onMounted(() => {
-  navbar.value.selectedLocale = $localeProperties;
-});
+  // garante sincronização inicial com locale do plugin
+  navbar.value.selectedLocale = localeProperties
+})
 </script>
 
 <template>
@@ -70,7 +78,7 @@ onMounted(() => {
       <Dropdown 
         class="max-w-[170px] !h-11 !rounded-[15px] !px-2 !bg-secondary_darken/70"
         v-model="navbar.selectedLocale"
-        :options="$i18n.locales" 
+        :options="Object.values($i18n.locales)"
         optionLabel="name"
         :placeholder="$i18n.localeProperties.name"
       />
