@@ -19,10 +19,19 @@ export default defineNuxtConfig({
 
   plugins: ['./plugins/i18n.ts', './plugins/fontawesome.ts', './plugins/primevue.ts', './plugins/directives.ts'],
 
-  nitro: { compressPublicAssets: true, minify: true },
-
-  routeRules: { '/**': { prerender: true } },
-
+  nitro: {
+    compressPublicAssets: true,
+    minify: true,
+    debug: true,
+    prerender: {
+      routes: [], // Desativa prerendering
+      crawlLinks: false,
+    },
+  },
+  routeRules: {
+    '/**': { prerender: false }, // Desativa prerendering para todas as rotas
+  },
+  
   build: {
     transpile: ['@fortawesome/vue-fontawesome', '@fortawesome/fontawesome-svg-core', '@fortawesome/free-solid-svg-icons', 'primevue']
   },
@@ -30,7 +39,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   srcDir: 'src',
-  publicDir: 'public',
 
   css: ['~/shared/assets/globals.css', '@fortawesome/fontawesome-svg-core/styles.css'],
 
