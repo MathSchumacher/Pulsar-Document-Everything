@@ -33,3 +33,7 @@ useHead({
   ]
 });
 </script>
+
+<template>
+  <!-- Este componente gerencia apenas metadados - não renderiza nada -->
+</template>
