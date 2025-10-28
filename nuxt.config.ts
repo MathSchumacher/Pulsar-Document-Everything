@@ -8,10 +8,20 @@ export default defineNuxtConfig({
 
   i18n: {
     defaultLocale: 'en',
-    vueI18n: './i18n.config.ts', // <-- aqui você referencia o arquivo
+    vueI18n: './i18n.config.ts',
     locales: [
-      { code: 'en', iso: 'en-US', name: 'English', file: resolve(__dirname, 'src/locales/en.json') },
-      { code: 'pt', iso: 'pt-BR', name: 'Português', file: resolve(__dirname, 'src/locales/pt.json') }
+      { 
+        code: 'en', 
+        iso: 'en-US', 
+        name: 'English', 
+        file: resolve(__dirname, 'src/locales/en.json')
+      },
+      { 
+        code: 'pt', 
+        iso: 'pt-BR', 
+        name: 'Português', 
+        file: resolve(__dirname, 'src/locales/pt.json')
+      }
     ]
   },
 
@@ -24,12 +34,13 @@ export default defineNuxtConfig({
     minify: true,
     debug: true,
     prerender: {
-      routes: [], // Desativa prerendering
+      routes: [],
       crawlLinks: false,
     },
   },
+
   routeRules: {
-    '/**': { prerender: false }, // Desativa prerendering para todas as rotas
+    '/**': { prerender: false },
   },
 
   build: {
