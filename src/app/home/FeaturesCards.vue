@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import StarsRain from '~/shared/components/utils/StarsRain.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 type Item = {
   icon: string,
@@ -11,49 +14,51 @@ type Item = {
 const topItems = ref<Item[]>([
   {
     icon: 'fa-solid fa-download',
-    title: $t('homepage.features-export-title'),
-    description: $t('homepage.features-export-description')
+    title: t('homepage.features-export-title'),
+    description: t('homepage.features-export-description')
   },
   {
     icon: 'fa-solid fa-upload',
-    title: $t('homepage.features-import-title'),
-    description: $t('homepage.features-import-description')
+    title: t('homepage.features-import-title'),
+    description: t('homepage.features-import-description')
   },
   {
     icon: 'fa-solid fa-microchip',
-    title: $t('homepage.features-customizations-title'),
-    description: $t('homepage.features-customizations-description'),
+    title: t('homepage.features-customizations-title'),
+    description: t('homepage.features-customizations-description'),
     new: true
   },
   {
     icon: 'fa-solid fa-palette',
-    title: $t('homepage.features-colors-title'),
-    description: $t('homepage.features-colors-description')
+    title: t('homepage.features-colors-title'),
+    description: t('homepage.features-colors-description')
   }
 ]);
 
 const bottomItems = ref<Item[]>([
   {
     icon: 'fa-solid fa-eye',
-    title: $t('homepage.features-preview-title'),
-    description: $t('homepage.features-preview-description')
+    title: t('homepage.features-preview-title'),
+    description: t('homepage.features-preview-description')
   },
   {
     icon: 'fa-brands fa-markdown',
-    title: $t('homepage.features-markdown-title'),
-    description: $t('homepage.features-markdown-description')
+    title: t('homepage.features-markdown-title'),
+    description: t('homepage.features-markdown-description')
   },
   {
     icon: 'fa-solid fa-code',
-    title: $t('homepage.features-codeblocks-title'),
-    description: $t('homepage.features-cobeblocks-description')
+    title: t('homepage.features-codeblocks-title'),
+    description: t('homepage.features-cobeblocks-description')
   },
   {
     icon: 'fa-solid fa-table',
-    title: $t('homepage.features-tables-title'),
-    description: $t('homepage.features-tables-description')
+    title: t('homepage.features-tables-title'),
+    description: t('homepage.features-tables-description')
   }
 ]);
+
+const isMobile = ref(true);
 
 onMounted(() => {
   if(window.innerWidth <= 1344) {
@@ -82,7 +87,7 @@ onMounted(() => {
             class="relative flex flex-col items-start w-full h-[196px] cursor-pointer px-[45px] py-8 card-hover-gradient duration-300"
           >
             <div v-if="item.new" class="absolute right-7 top-7 flex items-center justify-center min-w-[70px] min-h-[36px] new-button-gradient border border-solid border-primary/70 rounded-[10px]">
-              <p class="new-button-text-gradient">{{ $t('homepage.features-new-text') }}</p>
+              <p class="new-button-text-gradient">{{ t('homepage.features-new-text') }}</p>
             </div>
             <font-awesome-icon :icon="item.icon" class="text-[28px] text-primary/90"></font-awesome-icon>
             <h3 class="text-primary text-[18px] mt-5">{{ item.title }}</h3>
@@ -100,7 +105,7 @@ onMounted(() => {
             class="relative flex flex-col items-start w-full h-[196px] cursor-pointer px-[45px] py-8 bottom-card-hover-gradient duration-300"
           >
             <div v-if="item.new" class="absolute right-7 top-7 flex items-center justify-center min-w-[70px] min-h-[36px] new-button-gradient border border-solid border-primary/70 rounded-[10px]">
-              <p class="new-button-text-gradient">{{ $t('homepage.features-new-text') }}</p>
+              <p class="new-button-text-gradient">{{ t('homepage.features-new-text') }}</p>
             </div>
             <font-awesome-icon :icon="item.icon" class="text-[28px] text-primary/90"></font-awesome-icon>
             <h3 class="text-primary text-[18px] mt-5">{{ item.title }}</h3>

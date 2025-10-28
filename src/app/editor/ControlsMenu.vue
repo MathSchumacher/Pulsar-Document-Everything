@@ -13,7 +13,9 @@ import { useEditor } from '~/shared/states/editorState';
 import HexColorPicker from '~/shared/components/utils/HexColorPicker.vue';
 import { Manifest } from '~/shared/dfb/files/Manifest';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const { params } = useRoute();
 const docId = Number(params.id) || 0;
 
@@ -101,7 +103,7 @@ onBeforeMount(async () => {
         <div class="flex items-center justify-between pb-7">
           <NuxtLinkLocale to="/documentations" class="flex items-center gap-3 w-32 h-10 bg-primary hover:bg-primary/80 active:bg-primary/60 duration-300 text-primary rounded-md font-medium pl-5">
             <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
-            {{ $t('editor.controls-menu-back-to-docs-button-message') }}
+            {{ t('editor.controls-menu-back-to-docs-button-message') }}
           </NuxtLinkLocale>
           <Button @click="isOpen = false" class="2xl:hidden w-10 !h-[40px] !bg-transparent hover:!bg-transparent !border-0">
             <font-awesome-icon icon="fa-solid fa-close" class="text-[20px]" />
@@ -113,39 +115,39 @@ onBeforeMount(async () => {
         <!--Controls-->
         <div class="flex flex-col pt-1 pb-5">
           <div class="w-full flex justify-between gap-2 mb-10">
-            <label class="text-sm text-primary/40 font-medium">{{ $t('editor.controls-menu-autosave-input-label') }}</label>
+            <label class="text-sm text-primary/40 font-medium">{{ t('editor.controls-menu-autosave-input-label') }}</label>
             <InputSwitch v-model="editor.doc.features.autoSave"/>
           </div>
           <div class="w-full flex items-center justify-between gap-2 mb-10">
-            <label class="text-sm text-primary/40 font-medium">{{ $t('editor.controls-menu-customize-input-label') }}</label>
+            <label class="text-sm text-primary/40 font-medium">{{ t('editor.controls-menu-customize-input-label') }}</label>
             <NuxtLinkLocale :to="`/customize/${editor.doc.id}`" class="flex items-center justify-center text-primary/80 w-32 h-10 border-solid border-[1px] border-primary/40 hover:bg-primary hover:text-primary duration-300 rounded-lg">
-              {{ $t('editor.controls-menu-customize-input-text') }}
+              {{ t('editor.controls-menu-customize-input-text') }}
             </NuxtLinkLocale>
           </div>
 
-          <h2 class="text-[18px] text-primary/80 font-medium">{{ $t('editor.controls-menu-basic-infos-title') }}</h2>
+          <h2 class="text-[18px] text-primary/80 font-medium">{{ t('editor.controls-menu-basic-infos-title') }}</h2>
 
           <!--Title-->
           <div class="w-full flex flex-col gap-2 mt-5">
-            <label class="text-sm text-primary/40 font-medium">{{ $t('editor.controls-menu-title-input-label') }}</label>
-            <InputText v-model="editor.doc.title" class="rounded-md contrast-200 !border-secondary/60" :placeholder="$t('editor.controls-menu-title-input-placeholder')" required />
+            <label class="text-sm text-primary/40 font-medium">{{ t('editor.controls-menu-title-input-label') }}</label>
+            <InputText v-model="editor.doc.title" class="rounded-md contrast-200 !border-secondary/60" :placeholder="t('editor.controls-menu-title-input-placeholder')" required />
           </div>
 
           <!--Description-->
           <div class="w-full flex flex-col gap-2 mt-5">
-            <label class="text-sm text-primary/40 font-medium">{{ $t('editor.controls-menu-description-input-label') }}</label>
-            <TextArea v-model="editor.doc.description" class="!border-secondary/60 contrast-200 max-h-[150px]" :placeholder="$t('editor.controls-menu-description-input-placeholder')" required />
+            <label class="text-sm text-primary/40 font-medium">{{ t('editor.controls-menu-description-input-label') }}</label>
+            <TextArea v-model="editor.doc.description" class="!border-secondary/60 contrast-200 max-h-[150px]" :placeholder="t('editor.controls-menu-description-input-placeholder')" required />
           </div>
 
           <!--Indexes Table-->
           <div class="w-full flex justify-between gap-2 mt-10">
-            <label class="text-sm text-primary/40 font-medium">{{ $t('editor.controls-menu-indexestable-input-label') }}</label>
+            <label class="text-sm text-primary/40 font-medium">{{ t('editor.controls-menu-indexestable-input-label') }}</label>
             <InputSwitch v-model="editor.doc.features.indexesTable"/>
           </div>
 
           <!--Colors-->
           <div class="w-full flex flex-col gap-2 mt-7">
-            <h2 class="text-lg text-primary/70 font-medium">{{ $t('editor.controls-menu-colors-area-title') }}</h2>
+            <h2 class="text-lg text-primary/70 font-medium">{{ t('editor.controls-menu-colors-area-title') }}</h2>
             <div class="w-full flex flex-col flex-wrap gap-6 mt-2.5">
               <div v-for="color of colors" :key="color" class="w-full flex flex-col">
                 <div class="w-full flex items-center justify-between gap-2">

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'; // ✅ Adicionado
 import ConfirmDialog from 'primevue/confirmdialog';
 import ControlsMenu from '~/app/editor/ControlsMenu.vue';
 import DocEditor from '~/app/editor/DocEditor.vue';
@@ -12,6 +13,7 @@ definePageMeta({ layout: 'editor' });
 
 const { params } = useRoute();
 const editor = useEditor();
+const { t } = useI18n(); // ✅ Adicionado
 
 onBeforeMount(async () => {
   // Reset old editor currentSelectedPage, because if you change documentation without reloading the page the SPA saves the old state
@@ -24,7 +26,7 @@ onBeforeMount(async () => {
 
 <template>
   <Head>
-    <Title>{{ `${$t('editor.title')} ${params.id}` }}</Title>
+    <Title>{{ `${t('editor.title')} ${params.id}` }}</Title>
   </Head>
   <PageStates
     :error="{

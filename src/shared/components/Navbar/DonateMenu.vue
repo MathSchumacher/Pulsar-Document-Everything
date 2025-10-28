@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { watch, onMounted } from 'vue'; // Adicionado imports necessários que são usados
+import { useI18n } from 'vue-i18n'; // ✅ Adicionado
 import { useNavbar } from '~/shared/states/navbarState';
 import BuyMeACoffeIcon from '../icons/BuyMeACoffeIcon.vue';
 
 const navbar = useNavbar();
+const { t } = useI18n(); // ✅ Adicionado
 
 function copyPix() {
   window.navigator.clipboard.writeText('03752835010');
@@ -55,16 +58,16 @@ onMounted(() => {
         <div class="relative flex flex-col items-center w-full h-[70%] bg-secondary_darken group-hover:bg-[#70cf64] rounded-t-[15px] duration-300 pt-10">
           <font-awesome-icon icon="fa-brands fa-pix" class="text-primary group-hover:text-darken text-[57px] duration-300"></font-awesome-icon>
           <p class="absolute bottom-10 px-8 text-center text-primary/70 group-hover:text-darken mt-10">
-            {{ $t('navbar.donate-pix-description') }}
+            {{ t('navbar.donate-pix-description') }}
           </p>
         </div>
         <div class="flex items-center justify-center w-full h-[30%] bg-secondary_darken/40 rounded-b-[15px]">
           <button class="flex items-center gap-2.5 bg-[#70cf64] text-darken rounded-[15px] px-5 h-12 duration-300">
-            {{ navbar.donateMenu.isCopiedPix? $t('navbar.pix-copied') : '03752835010' }}
+            {{ navbar.donateMenu.isCopiedPix? t('navbar.pix-copied') : '03752835010' }}
           </button>
         </div>
       </div>
-    </div>
+      </div>
     <div 
       @click="navbar.donateMenu.isOpen = false" 
       :class="`

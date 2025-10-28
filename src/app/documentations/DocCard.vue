@@ -8,7 +8,9 @@ import EditDocsModal from './EditDocsModal.vue';
 // import { MenuItem } from 'primevue/menuitem'; // Comentar
 import DocPrototype from '~/shared/components/DocPrototype.vue';
 import { Status } from '~/@types/status';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const props = defineProps<{ data: IDocumentation }>();
 const docs = useDocumentations();
 const confirm = useConfirm();
@@ -19,13 +21,13 @@ const isOpening = ref(false);
 // const contextMenuRef = ref(); // Comentar
 // const contextMenuItems = ref<MenuItem[]>([ // Comentar
 //   {
-//     label: $t('documentations.documentations-list-item-contextmenu-edit-message'),
+//     label: t('documentations.documentations-list-item-contextmenu-edit-message'),
 //     command: (ev) => {
 //       openEditDocModal();
 //     }
 //   },
 //   {
-//     label: $t('documentations.documentations-list-item-contextmenu-delete-message'),
+//     label: t('documentations.documentations-list-item-contextmenu-delete-message'),
 //     class: '[&_span]:!text-[#d4373c] [&_div]:hover:!bg-[#f99999]/10',
 //     command: deleteConfirmDialog
 //   }
@@ -41,12 +43,12 @@ function closeEditModal() {
 
 function deleteConfirmDialog() {
   confirm.require({
-    header: $t('documentations.delete-doc-dialog-title'),
-    message: $t('documentations.delete-doc-dialog-message'),
+    header: t('documentations.delete-doc-dialog-title'),
+    message: t('documentations.delete-doc-dialog-message'),
     acceptClass: '!w-32 !h-11 !font-normal !bg-[#c22d37] hover:!bg-[#992028] ml-2.5 border-0',
     rejectClass: '!w-32 !h-11 !font-normal',
-    acceptLabel: $t('documentations.delete-doc-dialog-confirm-button-message'),
-    rejectLabel: $t('documentations.delete-doc-dialog-cancel-button-message'),
+    acceptLabel: t('documentations.delete-doc-dialog-confirm-button-message'),
+    rejectLabel: t('documentations.delete-doc-dialog-cancel-button-message'),
     accept: async () => {
       const result = await Documentation.delete(props.data.id);
 

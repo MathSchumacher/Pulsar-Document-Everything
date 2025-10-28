@@ -4,7 +4,9 @@ import TiptapEditor from '~/shared/components/Tiptap/TiptapEditor.vue';
 import EditorCategories from './EditorCategories.vue';
 import IndexesTable from './IndexesTable.vue';
 import { useEditor } from '~/shared/states/editorState';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const editor = useEditor();
 const mobileNavigationIsOpen = ref(false);
 
@@ -142,7 +144,7 @@ onBeforeMount(() => {
           :colors="editor.doc.colors"
         />
         <div v-else class="w-full h-[300px] flex justify-center items-center">
-          <p :style="{ color: editor.doc.colors.text + '50' }">{{ $t('editor.non-page-selected-message') }}</p>
+          <p :style="{ color: editor.doc.colors.text + '50' }">{{ t('editor.non-page-selected-message') }}</p>
         </div>
       </div>
       <!--Indexes Table-->

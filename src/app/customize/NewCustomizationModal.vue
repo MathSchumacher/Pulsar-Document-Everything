@@ -4,7 +4,9 @@ import { Status } from '~/@types/status';
 import DocPrototype from '~/shared/components/DocPrototype.vue';
 import { useCustomize } from '~/shared/states/customizeState';
 import { Documentation } from '~/database/models/Documentation';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const regions: ('top' | 'bottom')[] = ['top', 'bottom'];
 const customize = useCustomize();
 
@@ -64,22 +66,22 @@ async function handleSubmit() {
       </div>
       <!--Form-->
       <form @submit.prevent="handleSubmit()" class="w-full p-10">
-        <h2 class="text-xl text-primary/90 font-medium">{{ $t('customize.new-customization-modal-title') }}</h2>
+        <h2 class="text-xl text-primary/90 font-medium">{{ t('customize.new-customization-modal-title') }}</h2>
         <hr class="w-full h-px bg-divider border-none mt-8 mb-3.5" />
         <div class="flex flex-col">
           <!--Title input-->
           <div class="w-full flex flex-col gap-2 mt-5">
-            <label class="text-sm text-primary/40 font-medium">{{ $t('customize.new-customization-modal-title-input-label') }}</label>
+            <label class="text-sm text-primary/40 font-medium">{{ t('customize.new-customization-modal-title-input-label') }}</label>
             <InputText
               v-model="customize.controlsMenu.newCustomizationModal.data.title"
               class="!h-11 rounded-md contrast-200 !border-secondary/60"
-              :placeholder="$t('customize.new-customization-modal-title-input-placeholder')"
+              :placeholder="t('customize.new-customization-modal-title-input-placeholder')"
               required
             />
           </div>
           <!--Region input-->
           <div class="w-full flex flex-col gap-2 mt-5">
-            <label class="text-sm text-primary/40 font-medium">{{ $t('customize.new-customization-modal-region-input-label') }}</label>
+            <label class="text-sm text-primary/40 font-medium">{{ t('customize.new-customization-modal-region-input-label') }}</label>
             <div class="flex gap-0.5 items-center mt-1.5">
               <Button
                 v-for="region in regions"
@@ -109,10 +111,10 @@ async function handleSubmit() {
               @click="customize.controlsMenu.newCustomizationModal.isOpen = false" 
               class="w-36 !h-10 !bg-secondary/10 contrast-200 hover:!bg-secondary/40"
             >
-              {{ $t('customize.new-customization-modal-cancel-button-message') }}
+              {{ t('customize.new-customization-modal-cancel-button-message') }}
             </Button>
             <Button type="submit" class="w-36 !h-10 !bg-primary hover:!bg-primary/50">
-              {{ $t('customize.new-customization-modal-create-button-message') }}
+              {{ t('customize.new-customization-modal-create-button-message') }}
             </Button>
           </div>
         </div>

@@ -10,7 +10,9 @@ import AppIcon from '~/shared/components/icons/AppIcon.vue';
 import { Documentation } from '~/database/models/Documentation';
 import { Status } from '~/@types/status';
 import { ResetCss } from '~/shared/dfb/files/src/assets/ResetCss';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const customize = useCustomize();
 const currentMobileTab = ref<'HtmlEditor' | 'CssEditor' | 'JavascriptEditor'>('HtmlEditor');
 const mobileEditors = {
@@ -153,8 +155,8 @@ onMounted(() => {
               <Button
                 @click="handleSave()"
                 class="w-10 min-h-[40px] !bg-primary" 
-                :title="$t('editor.controls-menu-save-button-aria-label')" 
-                :aria-label="$t('editor.controls-menu-save-button-aria-label')"
+                :title="t('editor.controls-menu-save-button-aria-label')" 
+                :aria-label="t('editor.controls-menu-save-button-aria-label')"
                 :disabled="customize.controlsMenu.isSaved"
               >
                 <font-awesome-icon v-if="!customize.controlsMenu.isSaving" icon="fa-solid fa-floppy-disk" class="text-[17px]"/>

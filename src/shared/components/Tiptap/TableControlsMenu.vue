@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'; // ✅ Adicionado
 import { Editor, FloatingMenu } from '@tiptap/vue-3';
 import { IDocumentationColorPalette } from '~/database/models/Documentation';
 
@@ -6,6 +7,8 @@ const props = defineProps<{
   editor: Editor | undefined,
   colors: IDocumentationColorPalette
 }>();
+
+const { t } = useI18n(); // ✅ Adicionado
 </script>
 
 <template>
@@ -37,7 +40,7 @@ const props = defineProps<{
           }"
         >
           <font-awesome-icon icon="fa-solid fa-plus"></font-awesome-icon>
-          <p>{{ $t('markdowneditor.slashcommands-popup-table-floatingmenu-line') }}</p>
+          <p>{{ t('markdowneditor.slashcommands-popup-table-floatingmenu-line') }}</p>
         </Button>
         <Button 
           @click="editor.chain().addColumnAfter().focus().run()"
@@ -47,7 +50,7 @@ const props = defineProps<{
           }"
         >
           <font-awesome-icon icon="fa-solid fa-plus"></font-awesome-icon>
-          <p>{{ $t('markdowneditor.slashcommands-popup-table-floatingmenu-column') }}</p>
+          <p>{{ t('markdowneditor.slashcommands-popup-table-floatingmenu-column') }}</p>
         </Button>
       </div>
       <hr class="w-[95%] h-[1px] border-none mx-auto" :style="{ backgroundColor: props.colors.divider }" />
@@ -60,7 +63,7 @@ const props = defineProps<{
           }"
         >
           <font-awesome-icon icon="fa-solid fa-minus" class="text-[15px]"></font-awesome-icon>
-          <p>{{ $t('markdowneditor.slashcommands-popup-table-floatingmenu-line') }}</p>
+          <p>{{ t('markdowneditor.slashcommands-popup-table-floatingmenu-line') }}</p>
         </Button>
         <Button 
           @click="editor.chain().deleteColumn().focus().run()"
@@ -70,7 +73,7 @@ const props = defineProps<{
           }"
         >
           <font-awesome-icon icon="fa-solid fa-minus" class="text-[15px]"></font-awesome-icon>
-          <p>{{ $t('markdowneditor.slashcommands-popup-table-floatingmenu-column') }}</p>
+          <p>{{ t('markdowneditor.slashcommands-popup-table-floatingmenu-column') }}</p>
         </Button>
       </div>
       <hr class="w-[95%] h-[1px] border-none mx-auto" :style="{ backgroundColor: props.colors.divider }" />
@@ -82,7 +85,7 @@ const props = defineProps<{
           }"
         >
           <font-awesome-icon icon="fa-solid fa-trash" class="text-[15px]"></font-awesome-icon>
-          <p>{{ $t('markdowneditor.slashcommands-popup-table-floatingmenu-removetable') }}</p>
+          <p>{{ t('markdowneditor.slashcommands-popup-table-floatingmenu-removetable') }}</p>
         </Button>
     </div>
   </floating-menu>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref, onBeforeMount } from 'vue'; // Adicionado imports necessários
+import { useI18n } from 'vue-i18n'; // ✅ Adicionado
 import Loading from './utils/Loading.vue';
 import Error from './utils/Error.vue';
 
@@ -11,6 +13,7 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+const { t } = useI18n(); // ✅ Adicionado
 
 const state = ref({
   isLoading: true,
@@ -40,9 +43,9 @@ onBeforeMount(() => {
   <Loading v-if="state.isLoading"/>
   <Error
     v-if="state.isError"
-    :status="error.status"
-    :message="$t('pagestates.error-notfound-message')"
-    :redirect-button-label="$t('pagestates.error-notfound-button-label')"
-    :redirect-path="error.redirectPath"
+    :status="props.error.status"
+    :message="t('pagestates.error-notfound-message')"
+    :redirect-button-label="t('pagestates.error-notfound-button-label')"
+    :redirect-path="props.error.redirectPath"
   />
 </template>

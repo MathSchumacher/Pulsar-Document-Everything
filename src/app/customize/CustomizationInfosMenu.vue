@@ -5,7 +5,9 @@ import ScrollPanel from 'primevue/scrollpanel';
 import { Documentation } from "~/database/models/Documentation";
 import DocPrototype from '~/shared/components/DocPrototype.vue';
 import { useCustomize } from '~/shared/states/customizeState';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const confirm = useConfirm();
 const customize = useCustomize();
 // PrimeVue passthrough simplificado
@@ -17,12 +19,12 @@ const pt = {
 
 function deleteCustomizationConfirmDialog(customizationId: number) {
   confirm.require({
-    header: $t('customize.delete-customization-dialog-title'),
-    message: $t('customize.delete-customization-dialog-message'),
+    header: t('customize.delete-customization-dialog-title'),
+    message: t('customize.delete-customization-dialog-message'),
     acceptClass: '!w-20 !h-10 !font-normal !bg-[#c22d37] hover:!bg-[#992028] ml-2.5 !border-none',
     rejectClass: '!w-20 !h-10 !font-normal',
-    rejectLabel: $t('customize.delete-customization-dialog-cancel-button-message'),
-    acceptLabel: $t('customize.delete-customization-dialog-confirm-button-message'),
+    rejectLabel: t('customize.delete-customization-dialog-cancel-button-message'),
+    acceptLabel: t('customize.delete-customization-dialog-confirm-button-message'),
     accept: async () => {
       const updatedCustomizations = JSON.parse(JSON.stringify(customize.value.doc.customizations.filter(c => c.id != customizationId)));
       const result = await Documentation.edit(customize.value.doc.id, {
@@ -75,10 +77,10 @@ function openCodeEditor() {
     <div class="flex flex-col w-full h-80 bg-secondary_darken pt-10 overflow-hidden">
       <div class="flex self-end pr-7 pb-8 gap-2">
         <Button @click="customize.controlsMenu.customizationInfosMenu.isOpen = false" class="!w-[100px] !h-10">
-          {{ $t('customize.customization-infos-menu-close-button-label') }}
+          {{ t('customize.customization-infos-menu-close-button-label') }}
         </Button>
         <Button @click="openCodeEditor()" class="!w-[100px] !h-10 !bg-primary hover:!bg-primary/70">
-          {{ $t('customize.customization-infos-menu-edit-button-label') }}
+          {{ t('customize.customization-infos-menu-edit-button-label') }}
         </Button>
         <Button 
           @click="deleteCustomizationConfirmDialog(Number(customize.controlsMenu.customizationInfosMenu.data?.id))" 
@@ -104,13 +106,13 @@ function openCodeEditor() {
         </span>
       </h3>
       <h3 class="text-[15px] text-primary/80 font-medium">
-        {{ $t('customize.customization-infos-menu-title-label') }}: 
+        {{ t('customize.customization-infos-menu-title-label') }}: 
         <span class="flex items-center w-full h-10 bg-secondary_darken text-primary/70 font-normal rounded-lg px-5 mt-2">
           {{ customize.controlsMenu.customizationInfosMenu.data?.title }}
         </span>
       </h3>
       <h3 class="flex flex-col text-[15px] text-primary/80 font-medium">
-        {{ $t('customize.customization-infos-menu-region-label') }}: 
+        {{ t('customize.customization-infos-menu-region-label') }}: 
         <span class="flex items-center w-full h-10 bg-secondary_darken text-primary/70 font-normal rounded-lg px-5 mt-2">
           {{ customize.controlsMenu.customizationInfosMenu.data?.region.split('').map((r, i) => i === 0? r.toUpperCase() : r).join('') }}
         </span>

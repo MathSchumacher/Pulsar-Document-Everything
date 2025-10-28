@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import StarsRain from '~/shared/components/utils/StarsRain.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 type Item = {
   icon: string,
@@ -11,17 +14,17 @@ const topItems = ref<Item[]>([
   {
     icon: 'fa-solid fa-code',
     title: 'HTML',
-    description: $t('homepage.customizations-features-html-description')
+    description: t('homepage.customizations-features-html-description')
   },
   {
     icon: 'fa-brands fa-css3',
     title: 'CSS',
-    description: $t('homepage.customizations-features-css-description')
+    description: t('homepage.customizations-features-css-description')
   },
   {
     icon: 'fa-brands fa-square-js',
     title: 'Javascript',
-    description: $t('homepage.customizations-features-javascript-description')
+    description: t('homepage.customizations-features-javascript-description')
   }
 ]);
 </script>
@@ -30,10 +33,10 @@ const topItems = ref<Item[]>([
   <section id="customizationssection" class="flex flex-col items-center min-h-[400px] mt-24 mb-10">
     <div class="flex flex-col items-center w-full px-12">
       <div class="customizations-button-gradient flex items-center gap-3 h-[37px] max-lg:mb-2 border border-solid border-primary/70 rounded-[10px] px-4 duration-300">
-        <p class="customizations-text-gradient text-base text-primary/80">{{ $t('homepage.customizations-feature-button') }}</p>
+        <p class="customizations-text-gradient text-base text-primary/80">{{ t('homepage.customizations-feature-button') }}</p>
       </div>
-      <h3 class="customizations-title-gradient text-center text-[32px] md:text-[40px] font-medium pb-3 mt-5">{{ $t('homepage.customizations-title') }}</h3>
-      <p class="text-lg text-center text-primary/60">{{ $t('homepage.customizations-description') }}</p>
+      <h3 class="customizations-title-gradient text-center text-[32px] md:text-[40px] font-medium pb-3 mt-5">{{ t('homepage.customizations-title') }}</h3>
+      <p class="text-lg text-center text-primary/60">{{ t('homepage.customizations-description') }}</p>
     </div>
     <StarsRain
       :amount="40"

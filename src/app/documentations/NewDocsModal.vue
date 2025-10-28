@@ -1,119 +1,134 @@
 <script setup lang="ts">
-import { Documentation, IDocumentation, IDocumentationColorPalette, documentationDataEmptyObj } from '~/database/models/Documentation';
+import { Documentation, IDocumentation, IDocumentationColorPalette } from '~/database/models/Documentation';
 import InputText from 'primevue/inputtext';
 import TextArea from 'primevue/textarea';
 import ScrollPanel from 'primevue/scrollpanel';
 import InputSwitch from 'primevue/inputswitch';
-import Button from 'primevue/button';
 import DocPrototype from '~/shared/components/DocPrototype.vue';
 import { useDocumentations } from '~/shared/states/documentationsState';
 import { Status } from '~/@types/status';
-import HexColorPicker from '~/shared/components/utils/HexColorPicker.vue';
+import { useI18n } from 'vue-i18n';
 
-// Novo objeto pt simplificado para ScrollPanel
-const pt = {
-  scrollpanel: {
-    barY: 'max-xl:hidden ml-10 !bg-secondary/30 contrast-200'
-  }
-};
-
+const { t } = useI18n();
+const { docId, isOpen } = defineProps<{ docId: number, isOpen: boolean }>();
+const emit = defineEmits(['close-modal']);
 const docs = useDocumentations();
-const { id, createdAt, pages, ...formInitialData } = documentationDataEmptyObj;
-const formData = ref<Omit<IDocumentation, 'id' | 'createdAt' | 'pages'>>(formInitialData);
-
-const onColorChange = (type: keyof IDocumentationColorPalette, val: string) => {
-  formData.value.colors[type] = `#${val}`;
+const docInfos = docs.value.data.find(doc => doc.id === docId);
+// PrimeVue passthrough simplificado
+const pt = {
+  scrollpanel: { barY: '!bg-secondary/30 contrast-200' },
+  button: { root: 'bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded' },
+  inputtext: { root: 'border p-2 rounded' }
 };
 
-const handleDocCreate = async () => {
-  const payload = {
-    id: Math.round(Math.random() * (1000 - 1) + 1),
-    pages: [],
-    createdAt: Date.now(),
-    ...JSON.parse(JSON.stringify(formData.value))
-  };
-  const result = await Documentation.create(payload);
+
+const formData = ref<Pick<IDocumentation, 'title' | 'description' | 'features'>>({
+  title: docInfos?.title || '',
+  description: docInfos?.description || '',
+  features: docInfos?.features || {
+    indexesTable: true,
+    autoSave: true
+  }
+});
+
+const handleDocSave = async () => {
+  const updatedPayload: Pick<IDocumentation, 'title' | 'description' | 'features'> = JSON.parse(JSON.stringify(formData.value));
+  const result = await Documentation.edit(docId, {
+    ...updatedPayload
+  });
 
   if(result === Status.OK) {
-    docs.value.newDocsModalIsOpen = !docs.value.newDocsModalIsOpen;
-    docs.value.data = [...docs.value.data, payload];
-    formData.value.title = '';
-    formData.value.description = '';
+    emit('close-modal');
+    // Realtime update in docs list
+    const updatedData = docs.value.data.map(doc => doc.id === docId? { ...doc, ...updatedPayload } : doc);
+    docs.value.data = updatedData;
   } else {
-    alert('Error on creating a new documentation!');
+    alert('Error on saving doc changes!');
   }
 };
 
-type ColorNames = keyof IDocumentationColorPalette;
-const colors: ColorNames[] = ['background', 'primary', 'secondary', 'text', 'divider'];
+const handleCloseModal = () => {
+  emit('close-modal');
+  // Sets the default doc data, if user changed input areas but canceled the action
+  const updatedDocInfos = docs.value.data.find(doc => doc.id === docId);
+  formData.value = {
+    title: updatedDocInfos?.title || '',
+    description: updatedDocInfos?.description || '',
+    features: updatedDocInfos?.features || {
+      indexesTable: true,
+      autoSave: true
+    }
+  };
+}
 </script>
 
 <template>
-  <div :class="`${docs.newDocsModalIsOpen? 'opacity-1' : 'opacity-0 pointer-events-none'} duration-300 fixed left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 flex max-xl:flex-col min-w-full xl:min-w-[400px] h-full xl:h-[450px] bg-secondary xl:rounded-lg max-xl:overflow-scroll z-[91]`">
+  <div :class="`${isOpen? 'opacity-1' : 'opacity-0 pointer-events-none'} duration-300 fixed left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 flex max-xl:flex-col min-w-full xl:min-w-[400px] h-full xl:h-[450px] bg-secondary xl:rounded-lg max-xl:overflow-scroll z-[91]`">
     <!--Doc prototype-->
-    <div class="flex justify-center items-center w-full xl:w-[400px] max-xl:py-8 bg-secondary_darken h-full rounded-l-[10px]">
-      <DocPrototype :colors="formData.colors" :features="formData.features" navbar />
+    <div class="flex justify-center items-center w-full xl:w-[400px] max-xl:py-8 bg-secondary_darken h-full rounded-l-lg">
+      <DocPrototype
+        :colors="(docInfos?.colors as IDocumentationColorPalette)"
+        :features="formData.features"
+        navbar
+      />
     </div>
     <!--Form-->
     <div class="w-full xl:w-[450px] p-10">
-      <h2 class="text-primary/80 text-xl font-medium">{{ $t('documentations.new-doc-modal-title') }}</h2>
+      <h2 class="text-primary/80 text-xl font-medium">{{ t('documentations.edit-doc-modal-title') }}</h2>
       <hr class="w-full h-px bg-divider border-none mt-5" />
-      <ScrollPanel class="relative w-full h-[calc(100%-10px)]" :pt="pt">
-        <form @submit.prevent="handleDocCreate()" class="relative w-full h-full flex flex-col">
+      <ScrollPanel 
+        class="relative w-full h-[calc(100%-10px)]"
+        :pt="
+          usePassThrough(Tailwind, { 
+            scrollpanel: { 
+              barY: 'max-xl:hidden ml-10 !bg-secondary/30 contrast-200' 
+            } 
+          }, 
+          { mergeProps: true, mergeSections: true }
+        )"
+      >
+        <form @submit.prevent="handleDocSave()" class="relative w-full h-full flex flex-col">
           <!--Title input-->
           <div class="w-full flex flex-col gap-2 mt-5">
-            <label class="text-md text-primary/70 font-medium">{{ $t('documentations.new-doc-modal-title-input-label') }}</label>
+            <label class="text-md text-primary/70 font-medium">{{ t('documentations.new-doc-modal-title-input-label') }}</label>
             <InputText
               v-model="formData.title"
-              class="rounded-md contrast-200 !h-11 !border-secondary/60"
-              :placeholder="$t('documentations.new-doc-modal-title-input-placeholder')"
+              class="rounded-md !h-11 contrast-200 !border-secondary/60"
+              :placeholder="t('documentations.new-doc-modal-title-input-placeholder')"
               required
             />
           </div>
           <!--Description input-->
           <div class="w-full flex flex-col gap-2 mt-5">
-            <label class="text-md text-primary/70 font-medium">{{ $t('documentations.new-doc-modal-description-input-label') }}</label>
+            <label class="text-md text-primary/70 font-medium">{{ t('documentations.new-doc-modal-description-input-label') }}</label>
             <TextArea
               v-model="formData.description"
               class="!border-secondary/60 contrast-200 max-h-[74px]"
-              :placeholder="$t('documentations.new-doc-modal-description-input-placeholder')"
+              :placeholder="t('documentations.new-doc-modal-description-input-placeholder')"
               required
             />
           </div>
           <!--Indexes table-->
           <div class="w-full flex justify-between gap-2 mt-10">
-            <label class="text-md text-primary/70 font-medium">{{ $t('documentations.new-doc-modal-indexestable-input-label') }}</label>
+            <label class="text-md text-primary/70 font-medium">{{ t('documentations.new-doc-modal-indexestable-input-label') }}</label>
             <InputSwitch v-model="formData.features.indexesTable"/>
-          </div>
-          <!--Colors-->
-          <div class="w-full flex flex-col gap-2 mt-7">
-            <label class="text-md text-primary/70 font-medium">{{ $t('documentations.new-doc-modal-colors-area-title') }}</label>
-            <div class="flex flex-wrap gap-6 mt-2.5">
-              <div v-for="color of colors" :key="color" class="w-full sm:max-w-[105px] flex flex-col gap-2">
-                <label class="text-sm text-primary/40 font-medium">{{ color }}</label>
-                <HexColorPicker
-                  :toggler-button="{ width: '100%', height: '38px' }"
-                  :model-value="formData.colors[color]"
-                  @update:model-value="(val: string) => onColorChange(color, val)"
-                />
-              </div>
-            </div>
           </div>
           <!--Cancel and submit buttons-->
           <div class="flex flex-wrap gap-2.5 mt-12 xl:pb-10 self-end">
-            <Button @click="docs.newDocsModalIsOpen = !docs.newDocsModalIsOpen" class="w-[140px] !h-11 !bg-secondary/10 contrast-200 hover:!bg-secondary/40">
-              {{ $t('documentations.new-doc-modal-cancel-button-message') }}
+            <Button @click="handleCloseModal" class="!w-[140px] !h-[45px] !bg-secondary/10 contrast-200 hover:!bg-secondary/40">
+              {{ t('documentations.edit-doc-modal-cancel-button-message') }}
             </Button>
-            <Button type="submit" class="w-[140px] !h-11 !bg-primary hover:!bg-primary/50">
-              {{ $t('documentations.new-doc-modal-create-button-message') }}
+            <Button type="submit" class="!w-[140px] !h-11 !bg-primary hover:!bg-primary/50">
+              {{ t('documentations.edit-doc-modal-save-button-message') }}
             </Button>
           </div>
         </form>
       </ScrollPanel>
     </div>
   </div>
+  <!--Modal backdrop-->
   <div 
-    @click="docs.newDocsModalIsOpen = !docs.newDocsModalIsOpen"
-    :class="`fixed left-0 top-0 w-screen h-screen bg-[#00000090] z-[90] duration-300 ${docs.newDocsModalIsOpen? 'opacity-1' : 'opacity-0 pointer-events-none'}`"
+    @click="handleCloseModal"
+    :class="`fixed left-0 top-0 w-screen h-screen bg-[#00000090] z-[90] duration-300 ${isOpen? 'opacity-1' : 'opacity-0 pointer-events-none'}`"
   ></div>
 </template>

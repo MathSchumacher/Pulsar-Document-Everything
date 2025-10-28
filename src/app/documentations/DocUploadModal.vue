@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useDocumentations } from '~/shared/states/documentationsState';
 import { Documentation } from '~/database/models/Documentation';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const docs = useDocumentations();
 const uploadInput = ref<HTMLInputElement>();
 
@@ -87,7 +89,7 @@ async function handleUpload(e: HTMLInputElement) {
     >
       <!--Modal Header-->
       <div class="flex items-center h-10 justify-between">
-        <h2 class="text-[21px] text-primary/90 font-medium">{{ $t('documentations.upload-documentation-modal-title') }}</h2>
+        <h2 class="text-[21px] text-primary/90 font-medium">{{ t('documentations.upload-documentation-modal-title') }}</h2>
         <button @click="docs.uploadDocsModal.isOpen = false">
           <font-awesome-icon icon="fa-solid fa-close" class="text-[23px] text-primary/80"></font-awesome-icon>
         </button>
@@ -120,13 +122,13 @@ async function handleUpload(e: HTMLInputElement) {
             <p 
               :class="`text-[17px] mt-3.5 duration-300 ${docs.uploadDocsModal.highlighted? 'text-secondary' : 'text-secondary/30'}`"
             >
-              {{ $t('documentations.upload-documentation-modal-drag-and-drop-message') }}
+              {{ t('documentations.upload-documentation-modal-drag-and-drop-message') }}
             </p>
           </div>
         </div>
         <div class="w-full flex justify-center mt-10">
           <Button @click="uploadInput?.click()" class="w-[230px] !h-11 !bg-primary border-none">
-            {{ $t('documentations.upload-documentation-modal-choose-from-computer-button') }}
+            {{ t('documentations.upload-documentation-modal-choose-from-computer-button') }}
           </Button>
         </div>
         <input 
@@ -140,7 +142,7 @@ async function handleUpload(e: HTMLInputElement) {
       <!--Loading Step-->
       <div class="flex flex-col gap-3.5 items-center justify-center h-[calc(100%-40px)]" v-else>
         <font-awesome-icon icon="fa-solid fa-circle-notch" class="text-[50px] text-secondary" spin></font-awesome-icon>
-        <h3 class="text-center w-[300px] text-primary/80">{{ $t('documentations.upload-documentation-modal-loading-message') }}</h3>
+        <h3 class="text-center w-[300px] text-primary/80">{{ t('documentations.upload-documentation-modal-loading-message') }}</h3>
       </div>
     </div>
     <!--Modal Backdrop-->

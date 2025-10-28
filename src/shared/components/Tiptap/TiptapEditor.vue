@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref, watch, computed } from 'vue'; // Adicionado imports necessários
+import { useI18n } from 'vue-i18n'; // ✅ Adicionado
 import { lowlight } from './hljsConfig';
 import { useEditor as useTiptapEditor, EditorContent, mergeAttributes } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
@@ -19,7 +21,7 @@ import Heading from '@tiptap/extension-heading';
 import SlashCommandsPopup from './SlashCommandsPopup.vue';
 import SelectionBubbleMenu from './SelectionBubbleMenu.vue';
 import TableControlsMenu from './TableControlsMenu.vue';
-import { IDocumentationColorPalette } from '~/database/models/Documentation';
+import type { IDocumentationColorPalette } from '~/database/models/Documentation';
 import { useEditor } from '~/shared/states/editorState';
 
 const emit = defineEmits(['update:modelValue']);
@@ -28,6 +30,8 @@ const props = defineProps<{
   colors: IDocumentationColorPalette,
   content: string | undefined
 }>();
+
+const { t } = useI18n(); // ✅ Adicionado
 
 const editor = useTiptapEditor({
   content: props.content,
@@ -63,9 +67,9 @@ const editor = useTiptapEditor({
     Placeholder.configure({
       placeholder: ({ node }) => {
         if (node.type.name === 'heading') {
-          return `H${node.attrs.level} ${$t('markdowneditor.is-empty-message')}`;
+          return `H${node.attrs.level} ${t('markdowneditor.is-empty-message')}`;
         }
-        return $t('markdowneditor.line-is-empty-placeholder');
+        return t('markdowneditor.line-is-empty-placeholder');
       }
     }),
     Markdown.configure({

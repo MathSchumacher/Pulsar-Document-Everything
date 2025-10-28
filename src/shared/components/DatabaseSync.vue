@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref, watch, onBeforeMount } from 'vue'; // Adicionado imports necessários que são usados
+import { useI18n } from 'vue-i18n'; // ✅ Adicionado
 import { Status } from '~/@types/status';
 import { Documentation, IDocumentation, documentationDataEmptyObj } from '~/database/models/Documentation';
 
@@ -14,6 +16,7 @@ const data = ref<Data>({
   isSyncing: false,
   diff: []
 });
+const { t } = useI18n(); // ✅ Adicionado
 
 async function validityDocSync() {
   if(props.docId != 0) {
@@ -56,9 +59,11 @@ function syncDoc() {
         data.value.isChecking = false;
         data.value.diff = [];
       } else {
+        // Nota: Se essa mensagem for traduzida, você deve usar t()
         alert('Error on trying to edit the documentation!');
       }
     } else {
+      // Nota: Se essa mensagem for traduzida, você deve usar t()
       alert('Error on trying to sync the documentation!');
     }
   }, 300);
@@ -78,10 +83,10 @@ onBeforeMount(() => {
     <div class="flex flex-col items-center">
       <font-awesome-icon icon="fa-solid fa-rotate" class="text-[105px] text-secondary/75"></font-awesome-icon>
       <div class="flex items-center flex-col gap-2.5 max-w-[600px] mt-5">
-        <h2 class="text-[21px] text-primary/80 font-medium">{{ $t('databasesync.title') }}</h2>
-        <p class="text-center text-base text-primary/50">{{ $t('databasesync.description') }}</p>
+        <h2 class="text-[21px] text-primary/80 font-medium">{{ t('databasesync.title') }}</h2>
+        <p class="text-center text-base text-primary/50">{{ t('databasesync.description') }}</p>
         <p class="text-base text-primary/70" v-if="data.diff.length >= 1">
-          <strong>{{ $t('databasesync.missing-data-text') }}: </strong>
+          <strong>{{ t('databasesync.missing-data-text') }}: </strong>
           <span class="text-secondary/90">{{ data.diff.join(', ') }}</span>
         </p>
         <div class="flex gap-3.5 mt-6">
@@ -90,7 +95,7 @@ onBeforeMount(() => {
             class="flex gap-3.5 items-center w-[120px] md:w-[140px] h-11 bg-primary/20 hover:bg-primary duration-300 text-primary px-5 rounded-md"
           >
             <font-awesome-icon icon="fa-solid fa-arrow-left-long"></font-awesome-icon>
-            {{ $t('databasesync.back-to-documentations-button-label') }}
+            {{ t('databasesync.back-to-documentations-button-label') }}
           </NuxtLinkLocale>
           <Button @click="syncDoc()" class="!justify-start gap-3.5 w-[120px] md:w-[140px] !h-11 !bg-primary/80 hover:!bg-primary !px-5">
             <font-awesome-icon icon="fa-solid fa-rotate" :spin="data.isSyncing"></font-awesome-icon>

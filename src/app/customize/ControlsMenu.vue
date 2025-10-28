@@ -8,7 +8,9 @@ import { Documentation, IDocumentationCustomization } from "~/database/models/Do
 import NewCustomizationModal from './NewCustomizationModal.vue';
 import CustomizationInfosMenu from './CustomizationInfosMenu.vue';
 import CodeEditor from './CodeEditor/CodeEditor.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const { params } = useRoute();
 const docId = Number(params.id) || 0;
 
@@ -89,7 +91,7 @@ onBeforeMount(async () => {
       <AppIcon class="min-w-[40px]" size="35" color="#d3d3d3"/>
       <Button 
         @click="customize.controlsMenu.isOpen = true"
-        :aria-label="$t('customize.controls-menu-open-button-aria-label')"
+        :aria-label="t('customize.controls-menu-open-button-aria-label')"
         class="2xl:hidden w-[40px] !h-[40px] !bg-transparent hover:!bg-transparent !border-0"
       >
         <font-awesome-icon icon="fa-solid fa-bars" class="text-[25px]" />
@@ -126,11 +128,11 @@ onBeforeMount(async () => {
         <div class="flex items-center justify-between pb-7">
           <NuxtLinkLocale 
             :to="`/editor/${customize.doc.id}`"
-            :aria-label="$t('customize.controls-menu-back-to-editor-button-message')"
+            :aria-label="t('customize.controls-menu-back-to-editor-button-message')"
             class="flex items-center gap-3 w-32 h-10 bg-primary hover:bg-primary/80 active:bg-primary/60 duration-300 text-primary rounded-md font-medium pl-5"
           >
             <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
-            {{ $t('customize.controls-menu-back-to-editor-button-message') }}
+            {{ t('customize.controls-menu-back-to-editor-button-message') }}
           </NuxtLinkLocale>
           <Button 
             @click="customize.controlsMenu.isOpen = false" 
@@ -147,8 +149,8 @@ onBeforeMount(async () => {
             <NuxtLinkLocale
               :to="`/preview/${customize.doc.id}`"
               class="flex justify-center items-center w-10 min-h-[40px] !bg-[#d8985d] rounded-md" 
-              :title="$t('editor.controls-menu-previewmode-button-aria-label')" 
-              :aria-label="$t('editor.controls-menu-previewmode-button-aria-label')"
+              :title="t('editor.controls-menu-previewmode-button-aria-label')" 
+              :aria-label="t('editor.controls-menu-previewmode-button-aria-label')"
             >
               <font-awesome-icon icon="fa-solid fa-eye" class="text-[#fff]" />
             </NuxtLinkLocale>
@@ -156,8 +158,8 @@ onBeforeMount(async () => {
             <Button
               type="submit"
               class="w-10 min-h-[40px] !bg-primary" 
-              :title="$t('editor.controls-menu-save-button-aria-label')" 
-              :aria-label="$t('editor.controls-menu-save-button-aria-label')"
+              :title="t('editor.controls-menu-save-button-aria-label')" 
+              :aria-label="t('editor.controls-menu-save-button-aria-label')"
               :disabled="customize.controlsMenu.isSaved"
             >
               <font-awesome-icon v-if="!customize.controlsMenu.isSaving" icon="fa-solid fa-floppy-disk" class="text-[17px]"/>
@@ -171,12 +173,12 @@ onBeforeMount(async () => {
           <div class="flex justify-between items-center">
             <div class="flex gap-3.5 items-center">
               <font-awesome-icon icon="fa-solid fa-microchip" class="text-[26px] text-primary"></font-awesome-icon>
-              <h3 class="text-primary/80 text-lg font-medium">{{ $t('customize.controls-menu-customizations-title') }}</h3>
+              <h3 class="text-primary/80 text-lg font-medium">{{ t('customize.controls-menu-customizations-title') }}</h3>
             </div>
             <!--New customization button-->
             <Button
               @click="customize.controlsMenu.newCustomizationModal.isOpen = true"
-              :title="$t('customize.controls-menu-new-customization-button-label')"
+              :title="t('customize.controls-menu-new-customization-button-label')"
               class="w-10 !h-10 !bg-primary/80 hover:!bg-primary border-none"
             >
               <font-awesome-icon icon="fa-solid fa-plus" class="text-lg text-primary"></font-awesome-icon>
@@ -195,7 +197,7 @@ onBeforeMount(async () => {
           </div>
           <!--Empty customizations message-->
           <div class="flex justify-center items-center h-[200px]" v-if="customize.doc.customizations.length < 1">
-            <p class="text-center text-base text-primary/40">{{ $t('customize.controls-menu-empty-customizations-message') }}</p>
+            <p class="text-center text-base text-primary/40">{{ t('customize.controls-menu-empty-customizations-message') }}</p>
           </div>
         </div>
       </form>

@@ -1,11 +1,19 @@
 <script setup lang="ts">
+import { watch, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n'; // ✅ Padrão moderno
 import BuyMeACoffeIcon from '~/shared/components/icons/BuyMeACoffeIcon.vue'
 import Dropdown from 'primevue/dropdown'
 import { useNavbar } from '~/shared/states/navbarState'
 
-// pegando i18n do plugin
 const navbar = useNavbar()
-const { t, localeProperties, setLocale } = navbar.value
+// ✅ Usando o useI18n diretamente
+const { t, locale, locales, setLocale } = useI18n(); 
+
+// Obtém as propriedades do locale atual (equivalente a $i18n.localeProperties)
+const localeProperties = computed(() => {
+  return locales.value.find(l => l.code === locale.value);
+});
+
 
 function openMobileMenu() {
   navbar.value.mobileMenuIsOpen = true
@@ -39,12 +47,20 @@ watch(
   () => navbar.value.selectedLocale,
   (newLocale) => {
     if (newLocale) setLocale(newLocale.code)
-  }
+  },
+  // Garantir que a alteração do locale da navbar atualize o I18n
+  { deep: true } 
 )
 
 onMounted(() => {
   // garante sincronização inicial com locale do plugin
-  navbar.value.selectedLocale = localeProperties
+  // Agora que o I18n foi movido, usamos o valor obtido de useI18n
+  // ou ajustamos o estado para ser um objeto, se necessário. 
+  // Vou usar o valor do locale.value, que é a string do locale ativo.
+  const currentLocale = locales.value.find(l => l.code === locale.value);
+  if (currentLocale) {
+      navbar.value.selectedLocale = currentLocale;
+  }
 })
 </script>
 
@@ -78,22 +94,22 @@ onMounted(() => {
       <Dropdown 
         class="max-w-[170px] !h-11 !rounded-[15px] !px-2 !bg-secondary_darken/70"
         v-model="navbar.selectedLocale"
-        :options="Object.values($i18n.locales)"
+        :options="locales"
         optionLabel="name"
-        :placeholder="$i18n.localeProperties.name"
+        :placeholder="localeProperties?.name"
       />
       <NuxtLinkLocale 
         to="/documentations"
         :class="`${$route.path.match('/documentations')? 'hidden' : 'flex'} items-center justify-center w-full h-11 text-primary font-normal bg-primary/80 hover:bg-primary/60 hover:text-primary/90 duration-300 border-none rounded-[15px]`"
       >
-        {{ $t('navbar.getting-started-button') }}
+        {{ t('navbar.getting-started-button') }}
       </NuxtLinkLocale>
       <hr class="bg-secondary_darken w-[95%] mx-auto h-px border-none mt-3"/>
       <div>
         <ul class="flex flex-col gap-2 px-3">
           <li>
             <NuxtLinkLocale to="/" class="block text-primary/90 hover:text-secondary/90 duration-300 font-normal w-full py-1">
-              {{ $t('navbar.links-home') }}
+              {{ t('navbar.links-home') }}
             </NuxtLinkLocale>
           </li>
           <li>
@@ -103,7 +119,7 @@ onMounted(() => {
               rel="noreferrer"
               class="block text-primary/90 hover:text-secondary/90 duration-300 font-normal w-full py-1"
             >
-              {{ $t('navbar.links-documentations') }}
+              {{ t('navbar.links-documentations') }}
             </a>
           </li>
           <li>
@@ -118,7 +134,7 @@ onMounted(() => {
           </li>
           <li>
             <button @click="navbar.donateMenu.isOpen = true" class="text-left text-primary/90 hover:text-secondary/90 duration-300 w-full py-1">
-              {{ $t('navbar.links-donate') }}
+              {{ t('navbar.links-donate') }}
             </button>
           </li>
         </ul>
@@ -131,7 +147,7 @@ onMounted(() => {
           <li>
             <button @click="copyPix()" class="text-left w-full h-11 flex items-center gap-4 bg-[#70cf64] rounded-[15px] px-4">
               <font-awesome-icon icon="fa-brands fa-pix" class="text-darken text-[20px] duration-300"></font-awesome-icon>
-              {{ navbar.donateMenu.isCopiedPix? $t('navbar.pix-copied') : 'Pix' }}
+              {{ navbar.donateMenu.isCopiedPix? t('navbar.pix-copied') : 'Pix' }}
             </button>
           </li>
         </ul>

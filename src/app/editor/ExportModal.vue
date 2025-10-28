@@ -4,7 +4,9 @@ import { DocumentationFileBuilder } from '~/shared/dfb';
 import DocPrototype from '~/shared/components/DocPrototype.vue';
 import { useConfirm } from 'primevue/useconfirm';
 import { useEditor } from '~/shared/states/editorState';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const confirm = useConfirm();
 const editor = useEditor();
 
@@ -50,12 +52,12 @@ watch(() => editor.value.exportDocModal.isOpen, (val) => {
 function cancelConfirmDialog() {
   editor.value.exportDocModal.isCancelling = true;
   confirm.require({
-    header: $t('editor.export-cancel-dialog-title'),
-    message: $t('editor.export-cancel-dialog-content'),
+    header: t('editor.export-cancel-dialog-title'),
+    message: t('editor.export-cancel-dialog-content'),
     acceptClass: '!w-32 !h-11 !font-normal !bg-[#c22d37] hover:!bg-[#992028] ml-2.5 border-0',
     rejectClass: '!w-32 !h-11 !font-normal',
-    acceptLabel: $t('editor.export-cancel-dialog-confirm-button-message'),
-    rejectLabel: $t('editor.export-cancel-dialog-cancel-button-message'),
+    acceptLabel: t('editor.export-cancel-dialog-confirm-button-message'),
+    rejectLabel: t('editor.export-cancel-dialog-cancel-button-message'),
     accept: () => {
       editor.value.exportDocModal.isOpen = false;
       editor.value.exportDocModal.isCancelling = false;
@@ -96,16 +98,16 @@ function cancelConfirmDialog() {
         </Button>
         <div class="flex flex-col gap-3.5 justify-center items-center h-full" v-if="editor.exportDocModal.isLoading">
           <font-awesome-icon icon="fa-solid fa-circle-notch" class="text-[50px] text-secondary" spin></font-awesome-icon>
-          <h3 class="text-center w-[300px] text-primary/80">{{ $t('editor.export-modal-loading-message') }}</h3>
+          <h3 class="text-center w-[300px] text-primary/80">{{ t('editor.export-modal-loading-message') }}</h3>
         </div>
         <div class="flex flex-col items-center justify-center -mt-2.5 h-full" v-if="editor.exportDocModal.isError && !editor.exportDocModal.isLoading">
           <h2 class="text-[100px] text-secondary/80 font-medium">Error</h2>
-          <p class="max-w-[320px] text-center text-lg text-primary/50 font-normal -mt-4">{{ $t('editor.export-modal-error-message') }}</p>
+          <p class="max-w-[320px] text-center text-lg text-primary/50 font-normal -mt-4">{{ t('editor.export-modal-error-message') }}</p>
           <Button 
             @click="startDocumentationExport()"
             class="flex items-center min-w-[110px] !h-11 !px-5 !bg-primary font-medium rounded-md border-none mt-5"
           >
-            {{ $t('editor.export-modal-error-try-again-message') }}
+            {{ t('editor.export-modal-error-try-again-message') }}
           </Button>
         </div>
         <div class="relative h-full" v-if="!editor.exportDocModal.isError && !editor.exportDocModal.isLoading">

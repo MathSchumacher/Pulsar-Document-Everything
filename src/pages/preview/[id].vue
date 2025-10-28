@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue'; // Importar ref, pois é usado para 'doc'
+import { useI18n } from 'vue-i18n'; // ✅ Adicionado
 import DatabaseSync from '~/shared/components/DatabaseSync.vue';
 import { Documentation, IDocumentation } from '~/database/models/Documentation';
 import PageStates from '~/shared/components/PageStates.vue';
@@ -13,6 +15,7 @@ definePageMeta({
 
 const { params } = useRoute();
 const doc = ref<IDocumentation | undefined>();
+const { t } = useI18n(); // ✅ Adicionado
 
 // Load the page when iframe is loaded
 function iframeLoad(ev: Event) {
@@ -56,14 +59,15 @@ onBeforeMount(async () => {
   if(result) {
     doc.value = result;
   } else {
-    alert('Error on loading doc');
+    // Nota: Recomenda-se usar t() aqui se a mensagem de erro for traduzida.
+    alert('Error on loading doc'); 
   }
 });
 </script>
 
 <template>
   <Head>
-    <Title>{{ $t('preview.title') + ' ' + params.id }}</Title>
+    <Title>{{ t('preview.title') + ' ' + params.id }}</Title>
   </Head>
   <PageStates
     :error="{

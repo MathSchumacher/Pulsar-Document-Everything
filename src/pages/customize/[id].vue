@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue'; // Importar ref para 'isMobile'
+import { useI18n } from 'vue-i18n'; // ✅ Adicionado
 import ConfirmDialog from 'primevue/confirmdialog';
 import DatabaseSync from '~/shared/components/DatabaseSync.vue';
 import ControlsMenu from '~/app/customize/ControlsMenu.vue';
@@ -12,12 +14,14 @@ definePageMeta({
 
 const { params } = useRoute();
 const customize = useCustomize();
+const { t } = useI18n(); // ✅ Adicionado
+const isMobile = ref(true); // ✅ Adicionado (e importado 'ref')
 </script>
 
 <template>
   <div>
     <Head>
-      <Title>{{ $t('customize.title') + ' ' + params.id }}</Title>
+      <Title>{{ t('customize.title') + ' ' + params.id }}</Title>
     </Head>
     <PageStates
       :error="{
@@ -36,7 +40,7 @@ const customize = useCustomize();
         <div class="flex max-2xl:flex-col w-full">
           <ControlsMenu />
           <div class="w-full max-2xl:h-[400px] flex justify-center items-center">
-            <p class="text-primary/50">{{ $t('customize.empty-customization-preview-message') }}</p>
+            <p class="text-primary/50">{{ t('customize.empty-customization-preview-message') }}</p>
           </div>
         </div>
         <DatabaseSync :doc-id="customize.doc.id" />

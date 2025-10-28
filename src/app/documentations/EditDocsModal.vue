@@ -7,7 +7,9 @@ import InputSwitch from 'primevue/inputswitch';
 import DocPrototype from '~/shared/components/DocPrototype.vue';
 import { useDocumentations } from '~/shared/states/documentationsState';
 import { Status } from '~/@types/status';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const { docId, isOpen } = defineProps<{ docId: number, isOpen: boolean }>();
 const emit = defineEmits(['close-modal']);
 const docs = useDocumentations();
@@ -72,7 +74,7 @@ const handleCloseModal = () => {
     </div>
     <!--Form-->
     <div class="w-full xl:w-[450px] p-10">
-      <h2 class="text-primary/80 text-xl font-medium">{{ $t('documentations.edit-doc-modal-title') }}</h2>
+      <h2 class="text-primary/80 text-xl font-medium">{{ t('documentations.edit-doc-modal-title') }}</h2>
       <hr class="w-full h-px bg-divider border-none mt-5" />
       <ScrollPanel 
         class="relative w-full h-[calc(100%-10px)]"
@@ -88,36 +90,36 @@ const handleCloseModal = () => {
         <form @submit.prevent="handleDocSave()" class="relative w-full h-full flex flex-col">
           <!--Title input-->
           <div class="w-full flex flex-col gap-2 mt-5">
-            <label class="text-md text-primary/70 font-medium">{{ $t('documentations.new-doc-modal-title-input-label') }}</label>
+            <label class="text-md text-primary/70 font-medium">{{ t('documentations.new-doc-modal-title-input-label') }}</label>
             <InputText
               v-model="formData.title"
               class="rounded-md !h-11 contrast-200 !border-secondary/60"
-              :placeholder="$t('documentations.new-doc-modal-title-input-placeholder')"
+              :placeholder="t('documentations.new-doc-modal-title-input-placeholder')"
               required
             />
           </div>
           <!--Description input-->
           <div class="w-full flex flex-col gap-2 mt-5">
-            <label class="text-md text-primary/70 font-medium">{{ $t('documentations.new-doc-modal-description-input-label') }}</label>
+            <label class="text-md text-primary/70 font-medium">{{ t('documentations.new-doc-modal-description-input-label') }}</label>
             <TextArea
               v-model="formData.description"
               class="!border-secondary/60 contrast-200 max-h-[74px]"
-              :placeholder="$t('documentations.new-doc-modal-description-input-placeholder')"
+              :placeholder="t('documentations.new-doc-modal-description-input-placeholder')"
               required
             />
           </div>
           <!--Indexes table-->
           <div class="w-full flex justify-between gap-2 mt-10">
-            <label class="text-md text-primary/70 font-medium">{{ $t('documentations.new-doc-modal-indexestable-input-label') }}</label>
+            <label class="text-md text-primary/70 font-medium">{{ t('documentations.new-doc-modal-indexestable-input-label') }}</label>
             <InputSwitch v-model="formData.features.indexesTable"/>
           </div>
           <!--Cancel and submit buttons-->
           <div class="flex flex-wrap gap-2.5 mt-12 xl:pb-10 self-end">
             <Button @click="handleCloseModal" class="!w-[140px] !h-[45px] !bg-secondary/10 contrast-200 hover:!bg-secondary/40">
-              {{ $t('documentations.edit-doc-modal-cancel-button-message') }}
+              {{ t('documentations.edit-doc-modal-cancel-button-message') }}
             </Button>
             <Button type="submit" class="!w-[140px] !h-11 !bg-primary hover:!bg-primary/50">
-              {{ $t('documentations.edit-doc-modal-save-button-message') }}
+              {{ t('documentations.edit-doc-modal-save-button-message') }}
             </Button>
           </div>
         </form>

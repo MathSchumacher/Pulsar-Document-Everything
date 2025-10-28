@@ -1,14 +1,17 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'; // Adicionado para fornecer a função t()
 import ConfirmDialog from 'primevue/confirmdialog';
 import DocsToolbar from '~/app/documentations/DocsToolbar.vue';
 import NewDocsModal from '~/app/documentations/NewDocsModal.vue';
 import DocsList from '~/app/documentations/DocsList.vue';
 import DocUploadModal from '~/app/documentations/DocUploadModal.vue';
+
+const { t } = useI18n(); // Adicionado para fornecer a função t()
 </script>
 
 <template>
   <Head>
-    <Title>{{ $t('documentations.title') }}</Title>
+    <Title>{{ t('documentations.title') }}</Title>
   </Head>
   <ConfirmDialog :pt="{
     root: 'w-[280px] md:w-[400px] lg:w-[600px] rounded-[15px]',

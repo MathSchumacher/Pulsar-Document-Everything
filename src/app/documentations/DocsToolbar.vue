@@ -2,7 +2,9 @@
 import Toolbar from 'primevue/toolbar';
 import InputText from 'primevue/inputtext';
 import { useDocumentations } from '~/shared/states/documentationsState';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const docs = useDocumentations();
 const searchValue = ref('');
 
@@ -22,7 +24,7 @@ function searchClear() {
       <form @submit.prevent="search()" class="flex items-center w-full">
         <InputText 
           v-model="searchValue" 
-          :placeholder="$t('documentations.toolbar-search-placeholder')" 
+          :placeholder="t('documentations.toolbar-search-placeholder')" 
           class="mr-2 w-full placeholder:text-primary/40 lg:w-[300px] h-11"
         />
         <Button type="submit" class="!min-w-[44px] !h-11">

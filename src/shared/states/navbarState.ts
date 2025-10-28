@@ -2,8 +2,7 @@
 export type NavbarStateType = {
   donateMenu: {
     isOpen: boolean,
-    isCopiedPix: boolean,
-    // Remova o timer do estado - gerencie-o localmente no componente
+    isCopiedPix: boolean
   },
   mobileMenuIsOpen: boolean,
   selectedLocale: string | undefined

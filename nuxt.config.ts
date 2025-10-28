@@ -17,7 +17,7 @@ export default defineNuxtConfig({
 
   image: { provider: 'static', dir: 'public/images' },
 
-  plugins: ['./plugins/i18n.ts', './plugins/fontawesome.ts', './plugins/primevue.ts', './plugins/directives.ts'],
+  plugins: ['./plugins/fontawesome.ts', './plugins/primevue.ts', './plugins/directives.ts'],
 
   nitro: {
     compressPublicAssets: true,
@@ -31,7 +31,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/**': { prerender: false }, // Desativa prerendering para todas as rotas
   },
-  
+
   build: {
     transpile: ['@fortawesome/vue-fontawesome', '@fortawesome/fontawesome-svg-core', '@fortawesome/free-solid-svg-icons', 'primevue']
   },
