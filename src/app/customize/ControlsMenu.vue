@@ -114,14 +114,9 @@ onBeforeMount(async () => {
         z-[201]
         duration-300
       `"
-      :pt="
-        usePassThrough(Tailwind, { 
-          scrollpanel: { 
-            barY: '!bg-secondary/30 contrast-200' 
-          }
-        }, 
-        { mergeProps: true, mergeSections: true }
-      )"
+      :pt="{
+        barY: '!bg-secondary/30 contrast-200'
+      }"
     >
       <form @submit.prevent="handleSave" class="p-8">
         <!--Back to editor button and mobile close button-->

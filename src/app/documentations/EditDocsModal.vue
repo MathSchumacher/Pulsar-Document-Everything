@@ -10,37 +10,45 @@ import { Status } from '~/@types/status';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-const { docId, isOpen } = defineProps<{ docId: number, isOpen: boolean }>();
+const props = defineProps<{ docId: number, isOpen: boolean }>();
 const emit = defineEmits(['close-modal']);
 const docs = useDocumentations();
-const docInfos = docs.value.data.find(doc => doc.id === docId);
-// PrimeVue passthrough simplificado
-const pt = {
-  scrollpanel: { barY: '!bg-secondary/30 contrast-200' },
-  button: { root: 'bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded' },
-  inputtext: { root: 'border p-2 rounded' }
-};
 
+const docInfos = computed(() => docs.value.data.find(doc => doc.id === props.docId));
 
 const formData = ref<Pick<IDocumentation, 'title' | 'description' | 'features'>>({
-  title: docInfos?.title || '',
-  description: docInfos?.description || '',
-  features: docInfos?.features || {
+  title: '',
+  description: '',
+  features: {
     indexesTable: true,
     autoSave: true
   }
 });
 
+// Update form data when docInfos changes
+watch(() => docInfos.value, (newDocInfos) => {
+  if (newDocInfos) {
+    formData.value = {
+      title: newDocInfos.title || '',
+      description: newDocInfos.description || '',
+      features: newDocInfos.features || {
+        indexesTable: true,
+        autoSave: true
+      }
+    };
+  }
+}, { immediate: true });
+
 const handleDocSave = async () => {
   const updatedPayload: Pick<IDocumentation, 'title' | 'description' | 'features'> = JSON.parse(JSON.stringify(formData.value));
-  const result = await Documentation.edit(docId, {
+  const result = await Documentation.edit(props.docId, {
     ...updatedPayload
   });
 
   if(result === Status.OK) {
     emit('close-modal');
     // Realtime update in docs list
-    const updatedData = docs.value.data.map(doc => doc.id === docId? { ...doc, ...updatedPayload } : doc);
+    const updatedData = docs.value.data.map(doc => doc.id === props.docId ? { ...doc, ...updatedPayload } : doc);
     docs.value.data = updatedData;
   } else {
     alert('Error on saving doc changes!');
@@ -49,16 +57,17 @@ const handleDocSave = async () => {
 
 const handleCloseModal = () => {
   emit('close-modal');
-  // Sets the default doc data, if user changed input areas but canceled the action
-  const updatedDocInfos = docs.value.data.find(doc => doc.id === docId);
-  formData.value = {
-    title: updatedDocInfos?.title || '',
-    description: updatedDocInfos?.description || '',
-    features: updatedDocInfos?.features || {
-      indexesTable: true,
-      autoSave: true
-    }
-  };
+  // Reset form data to current doc data
+  if (docInfos.value) {
+    formData.value = {
+      title: docInfos.value.title || '',
+      description: docInfos.value.description || '',
+      features: docInfos.value.features || {
+        indexesTable: true,
+        autoSave: true
+      }
+    };
+  }
 }
 </script>
 
@@ -78,14 +87,9 @@ const handleCloseModal = () => {
       <hr class="w-full h-px bg-divider border-none mt-5" />
       <ScrollPanel 
         class="relative w-full h-[calc(100%-10px)]"
-        :pt="
-          usePassThrough(Tailwind, { 
-            scrollpanel: { 
-              barY: 'max-xl:hidden ml-10 !bg-secondary/30 contrast-200' 
-            } 
-          }, 
-          { mergeProps: true, mergeSections: true }
-        )"
+        :pt="{
+          barY: 'max-xl:hidden ml-10 !bg-secondary/30 contrast-200'
+        }"
       >
         <form @submit.prevent="handleDocSave()" class="relative w-full h-full flex flex-col">
           <!--Title input-->
@@ -115,7 +119,7 @@ const handleCloseModal = () => {
           </div>
           <!--Cancel and submit buttons-->
           <div class="flex flex-wrap gap-2.5 mt-12 xl:pb-10 self-end">
-            <Button @click="handleCloseModal" class="!w-[140px] !h-[45px] !bg-secondary/10 contrast-200 hover:!bg-secondary/40">
+            <Button @click="handleCloseModal" type="button" class="!w-[140px] !h-[45px] !bg-secondary/10 contrast-200 hover:!bg-secondary/40">
               {{ t('documentations.edit-doc-modal-cancel-button-message') }}
             </Button>
             <Button type="submit" class="!w-[140px] !h-11 !bg-primary hover:!bg-primary/50">

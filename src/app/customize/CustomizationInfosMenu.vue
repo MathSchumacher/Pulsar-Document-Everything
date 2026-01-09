@@ -65,14 +65,9 @@ function openCodeEditor() {
       duration-300
       z-[300]
     `"
-    :pt="
-      usePassThrough(Tailwind, { 
-        scrollpanel: { 
-          barY: '!bg-secondary/30 contrast-200' 
-        }
-      }, 
-      { mergeProps: true, mergeSections: true }
-    )"
+    :pt="{
+      barY: '!bg-secondary/30 contrast-200'
+    }"
   >
     <div class="flex flex-col w-full h-80 bg-secondary_darken pt-10 overflow-hidden">
       <div class="flex self-end pr-7 pb-8 gap-2">

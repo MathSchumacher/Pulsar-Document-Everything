@@ -24,8 +24,8 @@
     }
   ],
   "projectThumbImageUrl": "https://i.ibb.co/Xpjz7dY/image.png",
-  "projectIconUrl": "https://raw.githubusercontent.com/diogopereiradev/pulsar/main/public/favicons/favicon.ico",
-  "projectRepositoryUrl": "https://github.com/MathSchumacher/Pulsar-Document-Everything.git",
-  "projectLiveUrl": "https://pulsar.MathSchumacher.site/",
+  "projectIconUrl": "https://raw.githubusercontent.com/MathSchumacher/Pulsar-Document-Everything/main/public/favicons/favicon.ico",
+  "projectRepositoryUrl": "https://github.com/MathSchumacher/Pulsar-Document-Everything",
+  "projectLiveUrl": "https://pulsar.mathschumacher.dev/",
   "createdAt": "30/07/2025"
 }
